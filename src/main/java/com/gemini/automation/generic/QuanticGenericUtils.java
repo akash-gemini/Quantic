@@ -74,6 +74,7 @@ public class QuanticGenericUtils extends QuanticGlobalVar {
     public void initializeQuanticGlobalVariables(ITestContext iTestContext) {
         QuanticGlobalVar.quanticProperty = PropertyListners.loadProjectProperties(ClassLoader.getSystemResourceAsStream("Quantic.properties"));
         QuanticGlobalVar.projectName = getProjectName(iTestContext);
+//        System.out.println("properties file = "+QuanticGlobalVar.projectName + ".properties");
         ProjectProperties.setProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + ".properties"));
         QuanticGlobalVar.projectProperty = PropertyListners.loadProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + ".properties"));
         QuanticGlobalVar.environment = getProjectEnvironment();
@@ -87,7 +88,7 @@ public class QuanticGenericUtils extends QuanticGlobalVar {
         } else {
             TestCaseData.setProjectTestCaseData(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.testCaseFileName));
         }
-        initializeMailingList();
+//        initializeMailingList();
     }
 
     public void initializeMailingList() {

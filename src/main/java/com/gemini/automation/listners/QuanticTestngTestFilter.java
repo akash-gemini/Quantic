@@ -56,7 +56,7 @@ public class QuanticTestngTestFilter implements IMethodInterceptor {
                 String methodName = iMethodInstance.getMethod().getConstructorOrMethod().getMethod().getName().toString();
                 JsonObject methodjson = jsonObject.get(methodName) != null ? jsonObject.get(methodName).getAsJsonObject() : null;
                 if ((methodjson != null) && (methodjson.get("runFlag") != null)) {
-                    if (methodjson.get("runFlag").getAsString().equalsIgnoreCase("Y") && QuanticGlobalVar.testCasesToRun.contains(methodName)) {
+                    if (methodjson.get("runFlag").getAsString().equalsIgnoreCase("Y")) {
                         testCasesToRun.add(iMethodInstance);
                     }
                 }
