@@ -13,11 +13,13 @@ public class TestCaseData {
 
     private static JsonObject projectTestCaseData = new JsonObject();
     private static ThreadLocal<JsonObject> testCaseData = new ThreadLocal<JsonObject>();
-    private static ThreadLocal<String> testCaseCategory = new ThreadLocal<String>();
-    private static ThreadLocal<String> testCaseScenarioID = new ThreadLocal<String>();
-    private static ThreadLocal<String> testCaseRunFlag = new ThreadLocal<String>();
+    private static ThreadLocal<String> testCaseCategory = new ThreadLocal<String>();//optional
+    private static ThreadLocal<String> testCaseScenarioID = new ThreadLocal<String>();//optional
+    private static ThreadLocal<String> testCaseRunFlag = new ThreadLocal<String>();//optional
     private static ThreadLocal<String> testCaseNameThread = new ThreadLocal<String>();
     private static ThreadLocal<JsonObject> testCaseInputData = new ThreadLocal<JsonObject>();
+
+    //function for  get key:value in testCaseData outside inputData
 
     public static void setProjectTestCaseData(InputStream input) {
         try {

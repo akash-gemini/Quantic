@@ -13,28 +13,37 @@ import java.nio.file.Files;
 
 public class QuanticDataProvider {
     @DataProvider(name = "QuanticDataProvider")
-    public Object[][] v2TestDataProvider(ITestNGMethod testNGMethod) throws IOException {
-        String methodName = testNGMethod.getMethodName();
-        String data;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        if (QuanticGlobalVar.testCaseDataJsonPath != null) {
-            data = new String(Files.readAllBytes(new File(QuanticGlobalVar.testCaseDataJsonPath).toPath()));
-        } else {
-            data = IOUtils.toString(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.testCaseFileName), StandardCharsets.UTF_8);
-        }
-        JsonElement jsonElement = gson.fromJson(data, JsonElement.class);
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        JsonElement methodData = jsonObject.get(methodName).getAsJsonObject().get("inputData");
-        if (methodData.isJsonArray()) {
-            JsonArray methodDataArray = methodData.getAsJsonArray();
-            int methodDatasize = methodDataArray.size();
-            Object[][] obj = new Object[methodDatasize][1];
-            for (int i = 0; i < methodDatasize; i++) {
-                obj[i][0] = methodDataArray.get(i).getAsJsonObject();
+    public static Object[][] QuanticTestDataProvider(ITestNGMethod testNGMethod) {
+        try {
+            String methodName = testNGMethod.getMethodName();
+            String data;
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            if (QuanticGlobalVar.testCaseDataJsonPath != null) {
+                data = new String(Files.readAllBytes(new File(QuanticGlobalVar.testCaseDataJsonPath).toPath()));
+            } else {
+                data = IOUtils.toString(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.testCaseFileName), StandardCharsets.UTF_8);
             }
-            return obj;
-        } else {
-            return new Object[][]{{methodData}};
+            JsonElement jsonElement = gson.fromJson(data, JsonElement.class);
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement methodData = jsonObject.get(methodName).getAsJsonObject().get("inputData");
+            if (methodData.isJsonArray()) {
+                JsonArray methodDataArray = methodData.getAsJsonArray();
+                int methodDataSize = methodDataArray.size();
+                Object[][] obj = new Object[methodDataSize][1];
+                for (int i = 0; i < methodDataSize; i++) {
+                    obj[i][0] = methodDataArray.get(i).getAsJsonObject();
+                }
+                return obj;
+            } else {
+                return new Object[][]{{methodData}};
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            return null;
         }
+
     }
 }
