@@ -8,10 +8,10 @@ import java.util.concurrent.BrokenBarrierException;
 public class ProjectProperties {
     private static Properties projectProperties;
 
-    public static void setProjectProperties(InputStream instream){
+    public static void setProjectProperties(InputStream inputStream){
         try{
             projectProperties=new Properties();
-            projectProperties.load(instream);
+            projectProperties.load(inputStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class ProjectProperties {
         }
     }
 
-    public static Boolean containskey(String key){
+    public static Boolean containsKey(String key){
         try{
             Boolean keyStatus = projectProperties.containsKey(key);
             return keyStatus;

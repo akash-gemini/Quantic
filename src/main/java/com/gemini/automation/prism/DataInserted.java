@@ -14,7 +14,7 @@ public class DataInserted {
         this.suiteDetails = new SuitsDetails();
     }
 
-    public DataInserted(String s_run_id, String r_run_id, String projectname, String reportName, String env) {
+    public DataInserted(String s_run_id, String r_run_id, String projectName, String reportName, String env) {
         this.suiteDetails = new SuitsDetails();
     }
 
@@ -23,8 +23,8 @@ public class DataInserted {
         this.suiteDetails = suitsDetails;
     }
 
-    public DataInserted(String projectname, String suiteName, String env, String r_run_id, int expectedNoTestCases) {
-        this.suiteDetails = new SuitsDetails(projectname, suiteName, env, r_run_id, expectedNoTestCases);
+    public DataInserted(String projectName, String suiteName, String env, String r_run_id, int expectedNoTestCases) {
+        this.suiteDetails = new SuitsDetails(projectName, suiteName, env, r_run_id, expectedNoTestCases);
     }
 
     public void endSuiteExecution() {

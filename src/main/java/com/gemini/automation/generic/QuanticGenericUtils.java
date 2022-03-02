@@ -1,13 +1,12 @@
 package com.gemini.automation.generic;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.ITestContext;
 
-import com.gemini.automation.listners.PropertyListners;
+import com.gemini.automation.listners.PropertyListeners;
 
 
 public class QuanticGenericUtils extends QuanticGlobalVar {
@@ -72,11 +71,11 @@ public class QuanticGenericUtils extends QuanticGlobalVar {
     }
 
     public void initializeQuanticGlobalVariables(ITestContext iTestContext) {
-        QuanticGlobalVar.quanticProperty = PropertyListners.loadProjectProperties(ClassLoader.getSystemResourceAsStream("Quantic.properties"));
+        QuanticGlobalVar.quanticProperty = PropertyListeners.loadProjectProperties(ClassLoader.getSystemResourceAsStream("Quantic.properties"));
         QuanticGlobalVar.projectName = getProjectName(iTestContext);
 //        System.out.println("properties file = "+QuanticGlobalVar.projectName + ".properties");
         ProjectProperties.setProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + ".properties"));
-        QuanticGlobalVar.projectProperty = PropertyListners.loadProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + ".properties"));
+        QuanticGlobalVar.projectProperty = PropertyListeners.loadProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + ".properties"));
         QuanticGlobalVar.environment = getProjectEnvironment();
         QuanticGlobalVar.reportName = getProjectReportName();
         QuanticGlobalVar.testCaseFileName = getTestCaseFileName();
@@ -92,7 +91,7 @@ public class QuanticGenericUtils extends QuanticGlobalVar {
     }
 
     public void initializeMailingList() {
-        QuanticGlobalVar.mailingProperty = PropertyListners.loadProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + "+_Mail.properties"));
+        QuanticGlobalVar.mailingProperty = PropertyListeners.loadProjectProperties(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.projectName + "+_Mail.properties"));
         QuanticGlobalVar.failMail = mailingProperty.getProperty("failMail");
         QuanticGlobalVar.ccMail = mailingProperty.getProperty("ccMail");
         QuanticGlobalVar.passMail = mailingProperty.getProperty("passMail");

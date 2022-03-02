@@ -1,11 +1,9 @@
 package com.gemini.automation.listners;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-
 import java.io.*;
 import java.util.Properties;
 
-public class PropertyListners {
+public class PropertyListeners {
     public static Properties loadProjectProperties(InputStream resourceInputStream) {
         Properties property = new Properties();
         try {

@@ -21,8 +21,8 @@ public class APIResponse {
     public String getResponse() {
         Gson gson = new GsonBuilder().create();
         JsonElement je = JsonParser.parseString(response);
-        String prettyresponse = gson.toJson(je);
-        return prettyresponse;
+        String prettyResponse = gson.toJson(je);
+        return prettyResponse;
     }
 
     public JsonObject getResponseAsJsonObject() {

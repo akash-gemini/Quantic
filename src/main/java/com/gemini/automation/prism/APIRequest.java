@@ -17,7 +17,7 @@ public class APIRequest {
         this.apiEndPoint = "https://www.google.com/";
         this.apiMethod = "GET";
         Map<String, String> header = new HashMap<>();
-        header.put("Conten-Type", "application/json");
+        header.put("Content-Type", "application/json");
         this.requestProperty = header;
         this.requestData = requestData;
     }

@@ -56,7 +56,7 @@ public class TestCaseData {
         }
     }
 
-    public static String getcurrentTestCaseName() {
+    public static String getCurrentTestCaseName() {
         try {
             return testCaseNameThread.get();
         } catch (Exception e) {

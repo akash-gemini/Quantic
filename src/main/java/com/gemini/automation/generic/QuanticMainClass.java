@@ -1,6 +1,6 @@
 package com.gemini.automation.generic;
 
-import com.gemini.automation.listners.PropertyListners;
+import com.gemini.automation.listners.PropertyListeners;
 import com.gemini.automation.listners.QuanticTestngTestFilter;
 import org.testng.IMethodInterceptor;
 import org.testng.TestNG;
@@ -15,7 +15,7 @@ public class QuanticMainClass {
 
     @SuppressWarnings({"deprecation", "rawtypes"})
     public static void main(String args[]) {
-        Properties quanticProperty = PropertyListners.loadProjectProperties(ClassLoader.getSystemResourceAsStream("Quantic.properties"));
+        Properties quanticProperty = PropertyListeners.loadProjectProperties(ClassLoader.getSystemResourceAsStream("Quantic.properties"));
         String testPackageName = quanticProperty.getProperty("testPackageName");
         String projectName = quanticProperty.getProperty("artifactId");
         TestNG testNG = new TestNG();

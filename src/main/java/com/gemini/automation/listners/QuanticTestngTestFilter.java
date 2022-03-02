@@ -43,9 +43,9 @@ public class QuanticTestngTestFilter implements IMethodInterceptor {
         if (QuanticGlobalVar.testCasesToRun != null) {
             for (IMethodInstance iMethodInstance : methods) {
                 String methodName = iMethodInstance.getMethod().getConstructorOrMethod().getMethod().getName().toString();
-                JsonObject methodjson = jsonObject.get(methodName) != null ? jsonObject.get(methodName).getAsJsonObject() : null;
-                if ((methodjson != null) && (methodjson.get("runFlag") != null)) {
-                    if ((methodjson.get("runFlag").getAsString().equalsIgnoreCase("Y") &&
+                JsonObject methodJson = jsonObject.get(methodName) != null ? jsonObject.get(methodName).getAsJsonObject() : null;
+                if ((methodJson != null) && (methodJson.get("runFlag") != null)) {
+                    if ((methodJson.get("runFlag").getAsString().equalsIgnoreCase("Y") &&
                             QuanticGlobalVar.testCasesToRun.contains(methodName))) {
                         testCasesToRun.add(iMethodInstance);
                     }
@@ -54,9 +54,9 @@ public class QuanticTestngTestFilter implements IMethodInterceptor {
         } else {
             for (IMethodInstance iMethodInstance : methods) {
                 String methodName = iMethodInstance.getMethod().getConstructorOrMethod().getMethod().getName().toString();
-                JsonObject methodjson = jsonObject.get(methodName) != null ? jsonObject.get(methodName).getAsJsonObject() : null;
-                if ((methodjson != null) && (methodjson.get("runFlag") != null)) {
-                    if (methodjson.get("runFlag").getAsString().equalsIgnoreCase("Y")) {
+                JsonObject methodJson = jsonObject.get(methodName) != null ? jsonObject.get(methodName).getAsJsonObject() : null;
+                if ((methodJson != null) && (methodJson.get("runFlag") != null)) {
+                    if (methodJson.get("runFlag").getAsString().equalsIgnoreCase("Y")) {
                         testCasesToRun.add(iMethodInstance);
                     }
                 }
