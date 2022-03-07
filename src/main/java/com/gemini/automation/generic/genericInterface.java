@@ -2,6 +2,7 @@ package com.gemini.automation.generic;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface genericInterface {
 
     public void setBrowserPosition(int x, int y);
 
-    public void getBrowserLocation();
+    public Point getBrowserLocation();
 
     //////////TimeOuts///////////
     public void setImplicitTimeOut(long seconds);
@@ -120,5 +121,7 @@ public interface genericInterface {
     public String getCSSValue(By locator,String propertyName);
 
     public String getCSSValue(WebElement element,String propertyName);
+
+    public String takeSnapShot();
 
     }

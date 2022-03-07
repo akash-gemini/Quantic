@@ -87,6 +87,7 @@ public class QuanticGenericUtils extends QuanticGlobalVar {
         } else {
             TestCaseData.setProjectTestCaseData(ClassLoader.getSystemResourceAsStream(QuanticGlobalVar.testCaseFileName));
         }
+        //error
 //        initializeMailingList();
     }
 

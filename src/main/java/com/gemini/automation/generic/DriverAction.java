@@ -1,11 +1,15 @@
 package com.gemini.automation.generic;
 
-import java.security.DomainCombiner;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
+import net.bytebuddy.agent.builder.AgentBuilder;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 
 
@@ -75,11 +79,13 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public void getBrowserLocation() {//change return
+    public Point getBrowserLocation() {//change return
         try {
-            DriverManager.getWebDriver().manage().window().getPosition();
+            Point p = DriverManager.getWebDriver().manage().window().getPosition();
+            return p;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -298,59 +304,59 @@ public class DriverAction implements genericInterface {
 
     //////////////////Click Operation/////////////////
 
-    public void click(By locator,String elementLabel){
-        try{
+    public void click(By locator, String elementLabel) {
+        try {
             WebElement element = getElement(locator);
             element.click();
-            System.out.println("Successful to Click on "+elementLabel);
+            System.out.println("Successful to Click on " + elementLabel);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to Click on "+elementLabel);
+            System.out.println("Failed to Click on " + elementLabel);
         }
     }
 
-    public void click(By locator,String steps,String description){
-        try{
-            WebElement element=getElement(locator);
+    public void click(By locator, String steps, String description) {
+        try {
+            WebElement element = getElement(locator);
             element.click();
             System.out.println("Successful to Click ");
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to Click ");
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         }
     }
 
-    public void click (WebElement webElement,String steps,String description){
-        try{
+    public void click(WebElement webElement, String steps, String description) {
+        try {
             webElement.click();
-            System.out.println("Successful to Click on web element : "+webElement);
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
+            System.out.println("Successful to Click on web element : " + webElement);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to Click on web element : "+webElement);
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
+            System.out.println("Failed to Click on web element : " + webElement);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         }
     }
 
-    public void click (WebElement webElement,String elementLabel){
-        try{
+    public void click(WebElement webElement, String elementLabel) {
+        try {
             webElement.click();
-            System.out.println("Successful to Click on web element : "+webElement);
-            System.out.println("element label : "+elementLabel);
+            System.out.println("Successful to Click on web element : " + webElement);
+            System.out.println("element label : " + elementLabel);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to Click on web element : "+webElement);
-            System.out.println("element label : "+elementLabel);
+            System.out.println("Failed to Click on web element : " + webElement);
+            System.out.println("element label : " + elementLabel);
         }
     }
 
-    public void clickWithoutReporting(By locator){
+    public void clickWithoutReporting(By locator) {
         try {
             WebElement element = getElement(locator);
             element.click();
@@ -360,7 +366,7 @@ public class DriverAction implements genericInterface {
     }
 
     public void clickWithoutReporting(WebElement webElement) {
-        try{
+        try {
             webElement.click();
         } catch (Exception e) {
             e.printStackTrace();
@@ -369,91 +375,91 @@ public class DriverAction implements genericInterface {
 
     /////////////////Type Operation//////////////////////
 
-    public void  typeText(By locator,String textToEnter , String steps,String description){
-        try{
-            WebElement element=getElement(locator);
-            element.clear();
-            element.sendKeys(textToEnter);
-            System.out.println("TypeText Successful ");
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("TypeText Failed");
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
-        }
-    }
-
-    public void typeTextWithoutReporting(By locator,String textToEnter){
-        try{
-            WebElement element =getElement(locator);
-            element.clear();
-            element.sendKeys(textToEnter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void typeText(By locator,String textToEnter,String elementLabel){
-        try{
+    public void typeText(By locator, String textToEnter, String steps, String description) {
+        try {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
             System.out.println("TypeText Successful ");
-            System.out.println("Text to Enter : "+textToEnter);
-            System.out.println("element Label : "+elementLabel);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("TypeText Failed");
-            System.out.println("Text to Enter : "+textToEnter);
-            System.out.println("element Label : "+elementLabel);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         }
     }
 
-    public void  typeText(WebElement element,String textToEnter , String steps,String description){
-        try{
+    public void typeTextWithoutReporting(By locator, String textToEnter) {
+        try {
+            WebElement element = getElement(locator);
+            element.clear();
+            element.sendKeys(textToEnter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void typeText(By locator, String textToEnter, String elementLabel) {
+        try {
+            WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
             System.out.println("TypeText Successful ");
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
+            System.out.println("Text to Enter : " + textToEnter);
+            System.out.println("element Label : " + elementLabel);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("TypeText Failed");
-            System.out.println("Steps : "+steps);
-            System.out.println("Description : "+description);
+            System.out.println("Text to Enter : " + textToEnter);
+            System.out.println("element Label : " + elementLabel);
         }
     }
 
-    public void typeTextWithoutReporting(WebElement element,String textToEnter){
-        try{
-            element.clear();
-            element.sendKeys(textToEnter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void typeText(WebElement element,String textToEnter,String elementLabel){
-        try{
+    public void typeText(WebElement element, String textToEnter, String steps, String description) {
+        try {
             element.clear();
             element.sendKeys(textToEnter);
             System.out.println("TypeText Successful ");
-            System.out.println("Text to Enter : "+textToEnter);
-            System.out.println("element Label : "+elementLabel);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("TypeText Failed");
-            System.out.println("Text to Enter : "+textToEnter);
-            System.out.println("element Label : "+elementLabel);
+            System.out.println("Steps : " + steps);
+            System.out.println("Description : " + description);
+        }
+    }
+
+    public void typeTextWithoutReporting(WebElement element, String textToEnter) {
+        try {
+            element.clear();
+            element.sendKeys(textToEnter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void typeText(WebElement element, String textToEnter, String elementLabel) {
+        try {
+            element.clear();
+            element.sendKeys(textToEnter);
+            System.out.println("TypeText Successful ");
+            System.out.println("Text to Enter : " + textToEnter);
+            System.out.println("element Label : " + elementLabel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("TypeText Failed");
+            System.out.println("Text to Enter : " + textToEnter);
+            System.out.println("element Label : " + elementLabel);
         }
     }
 
     //////////////Accessible name////////////////////
 
-    public String getAccessibleName(WebElement webElement){
-        try{
+    public String getAccessibleName(WebElement webElement) {
+        try {
             return webElement.getAccessibleName();
         } catch (Exception e) {
             e.printStackTrace();
@@ -461,8 +467,8 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public String getAccessibleName(By locator){
-        try{
+    public String getAccessibleName(By locator) {
+        try {
             WebElement element = getElement(locator);
             return element.getAccessibleName();
         } catch (Exception e) {
@@ -471,8 +477,8 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public String getArialRole(By locator){
-        try{
+    public String getArialRole(By locator) {
+        try {
             WebElement element = getElement(locator);
             return element.getAriaRole();
         } catch (Exception e) {
@@ -481,8 +487,8 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public String getArialRole(WebElement element){
-        try{
+    public String getArialRole(WebElement element) {
+        try {
             return element.getAriaRole();
         } catch (Exception e) {
             e.printStackTrace();
@@ -490,8 +496,8 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public String getAttributeName(WebElement webElement,String name){
-        try{
+    public String getAttributeName(WebElement webElement, String name) {
+        try {
             return webElement.getAttribute(name);
         } catch (Exception e) {
             e.printStackTrace();
@@ -499,8 +505,8 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public String getCSSValue(By locator,String propertyName){
-        try{
+    public String getCSSValue(By locator, String propertyName) {
+        try {
             WebElement element = getElement(locator);
             return element.getCssValue(propertyName);
         } catch (Exception e) {
@@ -509,13 +515,35 @@ public class DriverAction implements genericInterface {
         }
     }
 
-    public String getCSSValue(WebElement element,String propertyName){
-        try{
+    public String getCSSValue(WebElement element, String propertyName) {
+        try {
             return element.getCssValue(propertyName);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /////////////////////////////////////////////
+
+    public String takeSnapShot() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//Convert web driver object to TakeScreenshot
+        String fileWithPath = "/home/akash/Pictures/SS"+timestamp.getTime()+".png";
+        WebDriver webdriver = DriverManager.getWebDriver();
+        TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
+//Call getScreenshotAs method to create image file
+        File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
+//Move image file to new destination
+        File DestFile = new File(fileWithPath);
+//Copy file at destination
+        try {
+            FileUtils.copyFile(SrcFile, DestFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("ss loc = "+fileWithPath);
+        return fileWithPath;
     }
 
 }
