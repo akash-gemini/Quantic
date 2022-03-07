@@ -7,7 +7,6 @@
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/DriverAction.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/prism/ExecutionMetaData.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/ApiTest/RestTest.java
-/home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/listners/PropertyListners.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/ApiTest/ApiClientConnect.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/prism/MultiRunDetail.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/prism/APIRequest.java
@@ -23,6 +22,7 @@
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/QuanticUIBase.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/DriverManager.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/QuanticGlobalVar.java
+/home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/listners/PropertyListeners.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/QuanticMainClass.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/genericInterface.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/QuanticAPIBase.java
@@ -31,3 +31,4 @@
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/prism/SuitsDetails.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/generic/ProjectProperties.java
 /home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/ApiTest/ProjectApiUrl.java
+/home/akash/IdeaProjects/git_quantic/Quantic/src/main/java/com/gemini/automation/dbConnection/dbConnectionClass.java

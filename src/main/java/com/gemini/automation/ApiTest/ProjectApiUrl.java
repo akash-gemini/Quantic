@@ -33,7 +33,7 @@ public class ProjectApiUrl {
 
     public static String getUrl(String urlName){
         String urlValue = properties.getProperty(urlName);
-        return urlName;
+        return urlValue;
     }
 
     public static void updateUrl(String urlName, String urlValue){

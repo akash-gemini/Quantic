@@ -37,7 +37,7 @@ public class QuanticGenericUtils extends QuanticGlobalVar {
     public String getProjectEnvironment() {
         String sysPropEnvironment = System.getProperty("QuanticProjectEnvironment");
         String environmentFromPropertiesFile = QuanticGlobalVar.projectProperty.getProperty("environment");
-        String environment = sysPropEnvironment != null ? environmentFromPropertiesFile : "beta";
+        String environment = sysPropEnvironment != null ? sysPropEnvironment : environmentFromPropertiesFile != null ? environmentFromPropertiesFile : "beta";
         return environment;
     }
 

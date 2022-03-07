@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 public class QuanticAPIBase extends QuanticGenericUtils {
     @BeforeSuite
     public void beforeSuite(ITestContext iTestContext){
-        setKerberosRequiredConfiguration();
+//        setKerberosRequiredConfiguration();
         initializeQuanticGlobalVariables(iTestContext);
         int numberOfTestCasesToRun = iTestContext.getSuite().getAllInvokedMethods().size();
         //Report initialize
