@@ -17,6 +17,8 @@ public class QuanticUIBase extends QuanticGenericUtils {
         int numberOfTestCasesToRun = iTestContext.getSuite().getAllInvokedMethods().size();
         //Report
         GemTestReporter.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
+        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
+
     }
 
     @BeforeTest
@@ -39,6 +41,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
         TestCaseData.setCurrentTestCaseData(testcaseName);
         //Report
         GemTestReporter.startTestCase(testcaseName, "test", "GemJavaProject", false);
+        GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);
 
     }
 
@@ -47,6 +50,8 @@ public class QuanticUIBase extends QuanticGenericUtils {
         DriverManager.closeDriver();
         //Report
         GemTestReporter.endTestCase();
+        GemTestReporter2.endTestCase();
+
 
     }
 
@@ -63,7 +68,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
     public void afterSuite(){
         //Report
         GemTestReporter.endSuite();
-
+        GemTestReporter2.endSuite();
         //send mail
     }
 
