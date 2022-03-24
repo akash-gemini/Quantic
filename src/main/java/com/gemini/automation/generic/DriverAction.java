@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.qa.gemini.quartzReporting.GemTestReporter;
+import com.qa.gemini.quartzReporting.GemTestReporter2;
 import com.qa.gemini.quartzReporting.STATUS;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import org.apache.commons.io.FileUtils;
@@ -22,6 +23,15 @@ public class DriverAction implements genericInterface {
 
     public void launchUrl(String url) {
         try {
+            GemTestReporter2.addTestStep("Launch Url", "Url ~" + url, STATUS.PASS);
+            DriverManager.getWebDriver().get(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void launchUrlWithoutReporting(String url) {
+        try {
             DriverManager.getWebDriver().get(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,6 +39,17 @@ public class DriverAction implements genericInterface {
     }
 
     public String getTitle(String url) {
+        try {
+            String title = DriverManager.getWebDriver().getTitle();
+            GemTestReporter2.addTestStep("Get Title", "Title ~" + title, STATUS.PASS);
+            return title;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getTitleWithoutReporting(String url) {
         try {
             String title = DriverManager.getWebDriver().getTitle();
             return title;
@@ -40,6 +61,15 @@ public class DriverAction implements genericInterface {
 
     public void maximizeBrowser() {
         try {
+            GemTestReporter2.addTestStep("Maximize Browser", "Browser Maximize Successful ", STATUS.PASS);
+            DriverManager.getWebDriver().manage().window().maximize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void maximizeBrowserWithoutReporting() {
+        try {
             DriverManager.getWebDriver().manage().window().maximize();
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,6 +77,15 @@ public class DriverAction implements genericInterface {
     }
 
     public void minimizeBrowser() {
+        try {
+            GemTestReporter2.addTestStep("Minimize Browser", "Browser Minimize Successful", STATUS.PASS);
+            DriverManager.getWebDriver().manage().window().minimize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void minimizeBrowserWithoutReporting() {
         try {
             DriverManager.getWebDriver().manage().window().minimize();
         } catch (Exception e) {
@@ -63,7 +102,18 @@ public class DriverAction implements genericInterface {
         }
     }
 
+
     public void setBrowserSize(int width, int height) {
+        try {
+            GemTestReporter2.addTestStep("Set Browser Size", "Browser Size Set To <BR> width ~ " + width + "<BR> height ~ " + height, STATUS.PASS);
+            Dimension dimension = new Dimension(width, height);
+            DriverManager.getWebDriver().manage().window().setSize(dimension);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setBrowserSizeWithoutReporting(int width, int height) {
         try {
             Dimension dimension = new Dimension(width, height);
             DriverManager.getWebDriver().manage().window().setSize(dimension);
@@ -73,6 +123,16 @@ public class DriverAction implements genericInterface {
     }
 
     public void setBrowserPosition(int x, int y) {
+        try {
+            GemTestReporter2.addTestStep("Set Browser Position", "Browser Position Set To <BR> x ~ " + x + "<BR> y ~ " + y, STATUS.PASS);
+            Point point = new Point(x, y);
+            DriverManager.getWebDriver().manage().window().setPosition(point);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setBrowserPositionWithoutReporting(int x, int y) {
         try {
             Point point = new Point(x, y);
             DriverManager.getWebDriver().manage().window().setPosition(point);
@@ -122,6 +182,15 @@ public class DriverAction implements genericInterface {
 
     public void navigateBack() {
         try {
+            GemTestReporter2.addTestStep("Navigate Back", "Navigate Back Successful", STATUS.PASS);
+            DriverManager.getWebDriver().navigate().back();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void navigateBackWithoutReporting() {
+        try {
             DriverManager.getWebDriver().navigate().back();
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,6 +198,15 @@ public class DriverAction implements genericInterface {
     }
 
     public void navigateRefresh() {
+        try {
+            GemTestReporter2.addTestStep("Refresh Page", "Page Refresh Successful", STATUS.PASS);
+            DriverManager.getWebDriver().navigate().refresh();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void navigateRefreshWithoutReporting() {
         try {
             DriverManager.getWebDriver().navigate().refresh();
         } catch (Exception e) {
@@ -138,6 +216,15 @@ public class DriverAction implements genericInterface {
 
     public void navigateForward() {
         try {
+            GemTestReporter2.addTestStep("Navigate Forward", "Forward Navigation Successful ", STATUS.PASS);
+            DriverManager.getWebDriver().navigate().forward();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void navigateForwardWithoutReporting() {
+        try {
             DriverManager.getWebDriver().navigate().forward();
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,6 +232,15 @@ public class DriverAction implements genericInterface {
     }
 
     public void navigateToUrl(String url) {
+        try {
+            GemTestReporter2.addTestStep("Navigate to Url","Navigation to Url Successful<BR>URL ~ "+url,STATUS.PASS);
+            DriverManager.getWebDriver().navigate().to(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void navigateToUrlWithoutReporting(String url) {
         try {
             DriverManager.getWebDriver().navigate().to(url);
         } catch (Exception e) {
@@ -310,6 +406,7 @@ public class DriverAction implements genericInterface {
         try {
             WebElement element = getElement(locator);
             element.click();
+            GemTestReporter2.addTestStep("Click on ","Click Successful on "+elementLabel,STATUS.PASS);
             System.out.println("Successful to Click on " + elementLabel);
         } catch (Exception e) {
             e.printStackTrace();
@@ -321,6 +418,7 @@ public class DriverAction implements genericInterface {
         try {
             WebElement element = getElement(locator);
             element.click();
+            GemTestReporter2.addTestStep(steps,description,STATUS.PASS);
             System.out.println("Successful to Click ");
             System.out.println("Steps : " + steps);
             System.out.println("Description : " + description);
@@ -335,6 +433,7 @@ public class DriverAction implements genericInterface {
     public void click(WebElement webElement, String steps, String description) {
         try {
             webElement.click();
+            GemTestReporter2.addTestStep(steps,description,STATUS.PASS);
             System.out.println("Successful to Click on web element : " + webElement);
             System.out.println("Steps : " + steps);
             System.out.println("Description : " + description);
@@ -349,6 +448,7 @@ public class DriverAction implements genericInterface {
     public void click(WebElement webElement, String elementLabel) {
         try {
             webElement.click();
+            GemTestReporter2.addTestStep("Click on ","Click Successful on "+elementLabel,STATUS.PASS);
             System.out.println("Successful to Click on web element : " + webElement);
             System.out.println("element label : " + elementLabel);
         } catch (Exception e) {
@@ -382,6 +482,7 @@ public class DriverAction implements genericInterface {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
+            GemTestReporter2.addTestStep(steps,description,STATUS.PASS);
             System.out.println("TypeText Successful ");
             System.out.println("Steps : " + steps);
             System.out.println("Description : " + description);
@@ -408,6 +509,7 @@ public class DriverAction implements genericInterface {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
+            GemTestReporter2.addTestStep("Type on "+elementLabel,"Type Text Successful<BR>Type Text ~"+textToEnter,STATUS.PASS);
             System.out.println("TypeText Successful ");
             System.out.println("Text to Enter : " + textToEnter);
             System.out.println("element Label : " + elementLabel);
@@ -423,6 +525,7 @@ public class DriverAction implements genericInterface {
         try {
             element.clear();
             element.sendKeys(textToEnter);
+            GemTestReporter2.addTestStep(steps,description,STATUS.PASS);
             System.out.println("TypeText Successful ");
             System.out.println("Steps : " + steps);
             System.out.println("Description : " + description);
@@ -447,6 +550,7 @@ public class DriverAction implements genericInterface {
         try {
             element.clear();
             element.sendKeys(textToEnter);
+            GemTestReporter2.addTestStep("Type on "+elementLabel,"Type Text Successful<BR>Type Text ~"+textToEnter,STATUS.PASS);
             System.out.println("TypeText Successful ");
             System.out.println("Text to Enter : " + textToEnter);
             System.out.println("element Label : " + elementLabel);
@@ -531,7 +635,7 @@ public class DriverAction implements genericInterface {
     public String takeSnapShot() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 //Convert web driver object to TakeScreenshot
-        String fileWithPath = "/home/akash/Pictures/SS"+timestamp.getTime()+".png";
+        String fileWithPath = "/home/akash/Pictures/SS" + timestamp.getTime() + ".png";
         WebDriver webdriver = DriverManager.getWebDriver();
         TakesScreenshot scrShot = ((TakesScreenshot) webdriver);
 //Call getScreenshotAs method to create image file
@@ -544,7 +648,8 @@ public class DriverAction implements genericInterface {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("ss loc = "+fileWithPath);
+//        System.out.println("ss loc = " + fileWithPath);
+        GemTestReporter2.addTestStep("Take screenshot", "ScreenShot loc : " + fileWithPath, STATUS.PASS);
         return fileWithPath;
     }
 

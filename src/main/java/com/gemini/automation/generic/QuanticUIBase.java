@@ -16,7 +16,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
         initializeQuanticGlobalVariables(iTestContext);
         int numberOfTestCasesToRun = iTestContext.getSuite().getAllInvokedMethods().size();
         //Report
-        GemTestReporter.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
+//        GemTestReporter.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
         GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
 
     }
@@ -31,7 +31,9 @@ public class QuanticUIBase extends QuanticGenericUtils {
 
     @BeforeMethod
     public void beforeMethod(Method method) {
+
         String testcaseName = method.getName();
+        GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);
         DriverManager.initializeBrowser(QuanticGlobalVar.browserInTest);
         DriverAction driverAction = new DriverAction();
         driverAction.maximizeBrowser();
@@ -40,8 +42,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
         driverAction.launchUrl(ProjectProperties.getProperty("baseURL"));
         TestCaseData.setCurrentTestCaseData(testcaseName);
         //Report
-        GemTestReporter.startTestCase(testcaseName, "test", "GemJavaProject", false);
-        GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);
+//        GemTestReporter.startTestCase(testcaseName, "test", "GemJavaProject", false);
 
     }
 
@@ -49,7 +50,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
     public void afterMethod() {
         DriverManager.closeDriver();
         //Report
-        GemTestReporter.endTestCase();
+//        GemTestReporter.endTestCase();
         GemTestReporter2.endTestCase();
 
 
@@ -67,7 +68,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
     @AfterSuite
     public void afterSuite(){
         //Report
-        GemTestReporter.endSuite();
+//        GemTestReporter.endSuite();
         GemTestReporter2.endSuite();
         //send mail
     }

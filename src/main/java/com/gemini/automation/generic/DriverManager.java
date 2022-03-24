@@ -1,5 +1,7 @@
 package com.gemini.automation.generic;
 
+import com.qa.gemini.quartzReporting.GemTestReporter2;
+import com.qa.gemini.quartzReporting.STATUS;
 import org.openqa.selenium.WebDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,6 +23,7 @@ public class DriverManager {
 
     public static void closeDriver() {
         try {
+            GemTestReporter2.addTestStep("Close Driver", "Driver Close Successful", STATUS.PASS);
             driver.get().close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,6 +32,7 @@ public class DriverManager {
 
 
     public static void initializeBrowser() {
+        GemTestReporter2.addTestStep("initialize Browser", "No browser provided <BR> set to default browser CHROME", STATUS.PASS);
 
         System.out.println("No browser provided /n set to default browser CHROME");
         initializeBrowser("Chrome");
@@ -36,6 +40,7 @@ public class DriverManager {
 
     public static void initializeBrowser(String browserName) {
         try {
+            GemTestReporter2.addTestStep("initialize Browser", "Browser set to ~ "+browserName, STATUS.PASS);
             if (browserName == null) {
                 System.out.println("No browser provided /n set to default browser CHROME");
                 WebDriverManager.chromedriver().setup();
