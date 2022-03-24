@@ -1,6 +1,8 @@
 package com.gemini.automation.generic;
 
 import com.gemini.automation.listners.QuanticTestngTestFilter;
+import com.qa.gemini.quartzReporting.GemTestReporter;
+import com.qa.gemini.quartzReporting.GemTestReporter2;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 
@@ -14,6 +16,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
         initializeQuanticGlobalVariables(iTestContext);
         int numberOfTestCasesToRun = iTestContext.getSuite().getAllInvokedMethods().size();
         //Report
+        GemTestReporter.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
     }
 
     @BeforeTest
@@ -35,12 +38,16 @@ public class QuanticUIBase extends QuanticGenericUtils {
         driverAction.launchUrl(ProjectProperties.getProperty("baseURL"));
         TestCaseData.setCurrentTestCaseData(testcaseName);
         //Report
+        GemTestReporter.startTestCase(testcaseName, "test", "GemJavaProject", false);
+
     }
 
     @AfterMethod
     public void afterMethod() {
         DriverManager.closeDriver();
         //Report
+        GemTestReporter.endTestCase();
+
     }
 
     @AfterClass
@@ -55,6 +62,8 @@ public class QuanticUIBase extends QuanticGenericUtils {
     @AfterSuite
     public void afterSuite(){
         //Report
+        GemTestReporter.endSuite();
+
         //send mail
     }
 

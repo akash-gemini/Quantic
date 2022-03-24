@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.qa.gemini.quartzReporting.GemTestReporter;
+import com.qa.gemini.quartzReporting.STATUS;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;

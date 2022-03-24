@@ -198,6 +198,7 @@ public class ApiClientConnectImp implements ApiClientConnect {
             long executionTime = Instant.now().toEpochMilli() - startTime;
             JsonObject responseJson = new JsonObject();
 
+//            nebula.addrow("status",statusCode)
             responseJson.addProperty("status", statusCode);
             responseJson.addProperty("responseMessage", responseMessage);
             responseJson.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
