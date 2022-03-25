@@ -2,5 +2,6 @@ com/gemini/automation/dbConnection/dbConnectionClass.class
 com/gemini/automation/ApiTest/ApiClientConnect$2.class
 com/gemini/automation/listners/PropertyListeners.class
 com/gemini/automation/ApiTest/ApiClientConnect$MyAuthenticator.class
+com/gemini/automation/ApiTest/Main$1.class
 com/gemini/automation/ApiTest/ApiClientConnect_Interface.class
 com/gemini/automation/ApiTest/ApiClientConnect$1.class

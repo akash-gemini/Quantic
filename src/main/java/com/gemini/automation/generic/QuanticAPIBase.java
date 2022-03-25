@@ -2,6 +2,7 @@ package com.gemini.automation.generic;
 
 import com.gemini.automation.ApiTest.ProjectApiUrl;
 import com.gemini.automation.ApiTest.ProjectSampleJson;
+import com.qa.gemini.quartzReporting.GemTestReporter2;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 
@@ -19,6 +20,9 @@ public class QuanticAPIBase extends QuanticGenericUtils {
         InputStream ip = ClassLoader.getSystemResourceAsStream(urlFileName);
         ProjectApiUrl.initializeApiUrl(ip);
         ProjectSampleJson.loadSampleJson();
+
+        // Initializing startSuite of Gem-Reporting
+        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
     }
 
     @BeforeTest
@@ -32,12 +36,14 @@ public class QuanticAPIBase extends QuanticGenericUtils {
         String testcaseName = method.getName();
         TestCaseData.setCurrentTestCaseData(testcaseName);
         //Report
-        //Submit test case
+        GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);
+
     }
 
     @AfterMethod
     public void afterMethod(){
         //Report
+        GemTestReporter2.endTestCase();
     }
 
     @AfterClass
@@ -51,6 +57,7 @@ public class QuanticAPIBase extends QuanticGenericUtils {
     @AfterSuite
     public void afterSuite(){
         //Report execution
+        GemTestReporter2.endSuite();
         //Report mail
     }
 }
