@@ -21,7 +21,7 @@ import com.google.gson.JsonParser;
 // import generic.QuanticGlobalVar;
 // import generic.prism.UGTFapi;
 
-public class ApiClientConnect implements ApiClientConnect_Interface {
+public class ApiClientConnect {
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     static class MyAuthenticator extends Authenticator {
@@ -33,8 +33,6 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
             String decryptedPwd = getDecryptedPwd(kpass);
             return (new PasswordAuthentication(kuser, decryptedPwd.toCharArray()));
         }
-
-
     }
 
     public static String getDecryptedPwd(String encryptedPwd) {
@@ -56,16 +54,16 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         }
     }
 
-    @Override
-    public JsonObject httpsPostRequest(String url, String requestPayload, String contentType) {
+
+    public static JsonObject PostRequest(String url, String requestPayload, String contentType) {
         Authenticator.setDefault(new MyAuthenticator());
-        HttpsURLConnection httpsCon;
+        HttpURLConnection httpsCon;
         long startTime = Instant.now().toEpochMilli();
 
         try {
             URL requestUrl = new URL(url);
             String requestProtocol = requestUrl.getProtocol();
-            httpsCon = requestProtocol.equals("https") ? createSSLDisabledHttpsUrlConnection(requestUrl) : (HttpsURLConnection) requestUrl.openConnection();
+            httpsCon = requestProtocol.equals("https") ? createSSLDisabledHttpsUrlConnection(requestUrl) : (HttpURLConnection) requestUrl.openConnection();
 
             httpsCon.setConnectTimeout(100000);
             httpsCon.setDoInput(true);
@@ -163,7 +161,7 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         return hostnameVerifier;
     }
 
-    public static HttpsURLConnection createSSLDisabledHttpsUrlConnection(final URL requestUrl) {
+    public static HttpURLConnection createSSLDisabledHttpsUrlConnection(final URL requestUrl) {
         HttpsURLConnection httpsURLConnection;
         try {
             SSLContext sslContext = SSLContext.getInstance("SSL");
@@ -178,17 +176,17 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         return httpsURLConnection;
     }
 
-    @Override
-    public JsonObject httpsGetRequest(String url) {
+
+    public static JsonObject GetRequest(String url) {
         Authenticator.setDefault(new MyAuthenticator());
         long startTime = Instant.now().toEpochMilli();
-        HttpsURLConnection httpsCon;
+        HttpURLConnection httpsCon;
         try {
             URL requestUrl = new URL(url);
             String requestProtocol = requestUrl.getProtocol();
 
             httpsCon = requestProtocol.equals("https") ? createSSLDisabledHttpsUrlConnection(requestUrl) :
-                    (HttpsURLConnection) requestUrl.openConnection();
+                    (HttpURLConnection) requestUrl.openConnection();
 
             httpsCon.setRequestMethod("GET");
             httpsCon.connect();
@@ -214,10 +212,10 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         }
     }
 
-    @Override
-    public JsonObject httpsPutRequest(String url, String requestPayload, String contentType) {
+
+    public static JsonObject PutRequest(String url, String requestPayload, String contentType) {
         Authenticator.setDefault(new MyAuthenticator());
-        HttpsURLConnection httpsCon;
+        HttpURLConnection httpsCon;
         long startTime = Instant.now().toEpochMilli();
 
         try {
@@ -264,11 +262,9 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         }
     }
 
-    @Override
-    public JsonObject httpsCreateRequest(String method, String url, String requestPayload, Map<String, String> headers) {
+    public static JsonObject CreateRequest(String method, String url, String requestPayload, Map<String, String> headers) {
         Authenticator.setDefault(new MyAuthenticator());
-        HttpsURLConnection httpsCon;
-        HttpURLConnection httpCon;
+        HttpURLConnection httpsCon;
 
         long startTime = Instant.now().toEpochMilli();
         method = method.toUpperCase();
@@ -364,10 +360,9 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         }
     }
 
-    @Override
-    public JsonObject httpsPatchRequest(String url, String requestPayload, String contentType) {
+    public static JsonObject PatchRequest(String url, String requestPayload, String contentType) {
         Authenticator.setDefault(new MyAuthenticator());
-        HttpsURLConnection httpsCon;
+        HttpURLConnection httpsCon;
         long startTime = Instant.now().toEpochMilli();
 
         try {
@@ -415,8 +410,8 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         }
     }
 
-    @Override
-    public JsonObject httpsCreateRequest(String method, String url, File requestPayload, Map<String, String> headers) {
+
+    public static JsonObject CreateRequest(String method, String url, File requestPayload, Map<String, String> headers) {
         StringBuilder payload = new StringBuilder();
         try {
             FileReader fr = new FileReader(requestPayload);
@@ -429,14 +424,14 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
             e.printStackTrace();
             return null;
         }
-        JsonObject responseJson = httpsCreateRequest(method, url, payload.toString(), headers);
+        JsonObject responseJson = CreateRequest(method, url, payload.toString(), headers);
         return responseJson;
     }
 
-    @Override
-    public JsonObject httpsCreateRequest(String method, String url, Map<String, String> headers) {
+
+    public static JsonObject CreateRequest(String method, String url, Map<String, String> headers) {
         Authenticator.setDefault(new MyAuthenticator());
-        HttpsURLConnection httpsCon;
+        HttpURLConnection httpsCon;
         long startTime = Instant.now().toEpochMilli();
         method = method.toUpperCase();
         try {
@@ -511,340 +506,4 @@ public class ApiClientConnect implements ApiClientConnect_Interface {
         }
 
     }
-
-    // Requests for Http Protocol
-    @Override
-    public JsonObject httpGetRequest(String url) {
-        Authenticator.setDefault(new MyAuthenticator());
-        long startTime = Instant.now().toEpochMilli();
-        HttpURLConnection httpCon;
-        try {
-            URL requestUrl = new URL(url);
-            String requestProtocol = requestUrl.getProtocol();
-
-            httpCon = (HttpURLConnection) requestUrl.openConnection();
-
-            httpCon.setRequestMethod("GET");
-            httpCon.connect();
-
-            int statusCode = httpCon.getResponseCode();
-            String responseMessage = httpCon.getResponseMessage();
-            String errorMessage = getDataFromBufferedReader(httpCon.getErrorStream());
-            String responseBody = errorMessage == null ? getDataFromBufferedReader(httpCon.getInputStream()) : null;
-            long executionTime = Instant.now().toEpochMilli() - startTime;
-            JsonObject responseJson = new JsonObject();
-
-//            nebula.addrow("status",statusCode)
-            responseJson.addProperty("status", statusCode);
-            responseJson.addProperty("responseMessage", responseMessage);
-            responseJson.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
-            responseJson.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
-            responseJson.addProperty("execTime", executionTime);
-
-            return responseJson;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    @Override
-    public JsonObject httpPostRequest(String url, String requestPayload, String contentType) {
-        Authenticator.setDefault(new MyAuthenticator());
-        HttpURLConnection httpCon;
-        long startTime = Instant.now().toEpochMilli();
-
-        try {
-            URL requestUrl = new URL(url);
-            String requestProtocol = requestUrl.getProtocol();
-            httpCon = (HttpURLConnection) requestUrl.openConnection();
-
-            httpCon.setConnectTimeout(100000);
-            httpCon.setDoInput(true);
-            httpCon.setDoOutput(true);
-            httpCon.setRequestMethod("POST");
-            httpCon.setReadTimeout(100000);
-
-            // httpsCon.setFixedLengthStreamingMode(requestPayLoad.getBytes().Length);
-            httpCon.setRequestProperty("Content-Type", "application/json");
-            if (contentType != "json") {
-                httpCon.setRequestProperty("Content-Type", "multipart/form-data");
-            }
-            httpCon.setRequestProperty("accept", "application/json, text/plain, */*");
-            httpCon.setRequestProperty("Connection", "keep-alive");
-            httpCon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
-
-            writeDataToOutputStream(httpCon.getOutputStream(), requestPayload);
-
-            httpCon.connect();
-
-            int statusCode = httpCon.getResponseCode();
-            String responseMessage = httpCon.getResponseMessage();
-            String errorMessage = getDataFromBufferedReader(httpCon.getErrorStream());
-            String responseBody = errorMessage == null ? getDataFromBufferedReader(httpCon.getInputStream()) : null;
-            long executionTime = Instant.now().toEpochMilli() - startTime;
-            JsonObject responseJSON = new JsonObject();
-
-            responseJSON.addProperty("status", statusCode);
-            responseJSON.addProperty("responseMessage", responseMessage);
-            responseJSON.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
-            responseJSON.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
-            responseJSON.addProperty("execTime", executionTime);
-
-            return responseJSON;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public JsonObject httpPutRequest(String url, String requestPayload, String contentType) {
-        Authenticator.setDefault(new MyAuthenticator());
-        HttpURLConnection httpCon;
-        long startTime = Instant.now().toEpochMilli();
-
-        try {
-            URL requestUrl = new URL(url);
-            String requestProtocol = requestUrl.getProtocol();
-            httpCon = (HttpURLConnection) requestUrl.openConnection();
-
-            httpCon.setConnectTimeout(100000);
-            httpCon.setDoInput(true);
-            httpCon.setDoOutput(true);
-            httpCon.setRequestMethod("PUT");
-            httpCon.setReadTimeout(100000);
-
-            // httpsCon.setFixedLengthStreamingMode(requestPayLoad.getBytes().Length);
-            httpCon.setRequestProperty("Content-Type", "application/json");
-            if (contentType != "json") {
-                httpCon.setRequestProperty("Content-Type", "multipart/form-data");
-            }
-            httpCon.setRequestProperty("accept", "application/json, text/plain, */*");
-            httpCon.setRequestProperty("Connection", "keep-alive");
-            httpCon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
-
-            writeDataToOutputStream(httpCon.getOutputStream(), requestPayload);
-
-            httpCon.connect();
-
-            int statusCode = httpCon.getResponseCode();
-            String responseMessage = httpCon.getResponseMessage();
-            String errorMessage = getDataFromBufferedReader(httpCon.getErrorStream());
-            String responseBody = errorMessage == null ? getDataFromBufferedReader(httpCon.getInputStream()) : null;
-            long executionTime = Instant.now().toEpochMilli() - startTime;
-            JsonObject responseJSON = new JsonObject();
-
-            responseJSON.addProperty("status", statusCode);
-            responseJSON.addProperty("responseMessage", responseMessage);
-            responseJSON.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
-            responseJSON.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
-            responseJSON.addProperty("execTime", executionTime);
-
-            return responseJSON;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public JsonObject httpCreateRequest(String method, String url, String requestPayload, Map<String, String> headers) {
-        Authenticator.setDefault(new MyAuthenticator());
-        HttpURLConnection httpCon;
-
-
-        long startTime = Instant.now().toEpochMilli();
-        method = method.toUpperCase();
-        try {
-            URL requestUrl = new URL(url);
-            String requestProtocol = requestUrl.getProtocol();
-            httpCon = (HttpURLConnection) requestUrl.openConnection();
-
-
-            httpCon.setRequestProperty("accept", "application/json, text/plain, */*");
-            httpCon.setRequestProperty("Connection", "keep-alive");
-            httpCon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
-
-            for (Map.Entry<String, String> set : headers.entrySet()) {
-                httpCon.setRequestProperty(set.getKey(), set.getValue());
-            }
-
-            // Setting Content-Type if not present in Headers
-            if (!headers.containsKey("Content-Type")) {
-                httpCon.setRequestProperty("Content-Type", "application/json");
-            }
-
-            // Setting Other headers if not present in Headers
-            if (!headers.containsKey("accept")) {
-                httpCon.setRequestProperty("accept", "application/json, text/plain, */*");
-            }
-
-            method = method.toUpperCase();
-            switch (method) {
-                case "POST": {
-                    try {
-
-                        httpCon.setRequestMethod("POST");
-                        httpCon.setReadTimeout(100000);
-                        break;
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-
-                }
-                case "PUT": {
-                    try {
-                        httpCon.setRequestMethod("PUT");
-                        httpCon.setReadTimeout(100000);
-                        break;
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-
-                }
-                case "PATCH": {
-                    try {
-
-                        httpCon.setRequestMethod("POST");
-                        httpCon.setRequestProperty("X-HTTP-Method-Override", "PATCH");
-                        httpCon.setReadTimeout(100000);
-                        break;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-
-                }
-                default: {
-                    System.out.println("Only POST, PUT or PATCH Request is allowed");
-                }
-            }
-            writeDataToOutputStream(httpCon.getOutputStream(), requestPayload);
-            httpCon.connect();
-            int statusCode = httpCon.getResponseCode();
-            String responseMessage = httpCon.getResponseMessage();
-            String errorMessage = getDataFromBufferedReader(httpCon.getErrorStream());
-            String responseBody = errorMessage == null ? getDataFromBufferedReader(httpCon.getInputStream()) : null;
-            long executionTime = Instant.now().toEpochMilli() - startTime;
-            JsonObject responseJSON = new JsonObject();
-
-            responseJSON.addProperty("status", statusCode);
-            responseJSON.addProperty("responseMessage", responseMessage);
-            responseJSON.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
-            responseJSON.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
-            responseJSON.addProperty("execTime", executionTime + " ms");
-            return responseJSON;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public JsonObject httpCreateRequest(String method, String url, File requestPayload, Map<String, String> headers) {
-        StringBuilder payload = new StringBuilder();
-        try {
-            FileReader fr = new FileReader(requestPayload);
-            int i;
-            // Holds true till there is nothing to read
-            while ((i = fr.read()) != -1) {
-                payload.append((char) i);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        JsonObject responseJson = httpsCreateRequest(method, url, payload.toString(), headers);
-        return responseJson;
-    }
-
-
-    @Override
-    public JsonObject httpCreateRequest(String method, String url, Map<String, String> headers) {
-        Authenticator.setDefault(new MyAuthenticator());
-        HttpURLConnection httpCon;
-        long startTime = Instant.now().toEpochMilli();
-        method = method.toUpperCase();
-        try {
-            URL requestUrl = new URL(url);
-            String requestProtocol = requestUrl.getProtocol();
-            httpCon = (HttpURLConnection) requestUrl.openConnection();
-
-
-
-            for (Map.Entry<String, String> set : headers.entrySet()) {
-                httpCon.setRequestProperty(set.getKey(), set.getValue());
-            }
-
-            // Setting Content-Type if not present in Headers
-            if (!headers.containsKey("Content-Type")) {
-                httpCon.setRequestProperty("Content-Type", "application/json");
-            }
-
-            // Setting Other headers if not present in Headers
-            if (!headers.containsKey("accept")) {
-                httpCon.setRequestProperty("accept", "application/json, text/plain, */*");
-            }
-
-            switch (method) {
-                case "GET": {
-                    try {
-                        httpCon.setRequestMethod("GET");
-                        httpCon.connect();
-                        break;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-
-                }
-
-                case "DELETE": {
-                    try {
-                        httpCon.setRequestMethod("DELETE");
-                        httpCon.connect();
-                        break;
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-                }
-                default: {
-                    System.out.println("Enter valid parameters");
-
-                }
-            }
-            int statusCode = httpCon.getResponseCode();
-            String responseMessage = httpCon.getResponseMessage();
-            String errorMessage = getDataFromBufferedReader(httpCon.getErrorStream());
-            String responseBody = errorMessage == null ? getDataFromBufferedReader(httpCon.getInputStream()) : null;
-            long executionTime = Instant.now().toEpochMilli() - startTime;
-            JsonObject responseJson = new JsonObject();
-
-            responseJson.addProperty("status", statusCode);
-            responseJson.addProperty("responseMessage", responseMessage);
-            responseJson.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
-            responseJson.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
-            responseJson.addProperty("execTime", executionTime);
-
-            return responseJson;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
-
-
-
 }

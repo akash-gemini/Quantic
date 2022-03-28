@@ -36,6 +36,7 @@ public class QuanticAPIBase extends QuanticGenericUtils {
         String testcaseName = method.getName();
         TestCaseData.setCurrentTestCaseData(testcaseName);
         //Report
+        //product type from system variable / system.properties file / else hard code
         GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);
 
     }

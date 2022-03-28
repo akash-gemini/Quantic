@@ -26,6 +26,7 @@ public class DriverManager {
             GemTestReporter2.addTestStep("Close Driver", "Driver Close Successful", STATUS.PASS);
             driver.get().close();
         } catch (Exception e) {
+            GemTestReporter2.addTestStep("Close Driver", "Driver Close Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
@@ -33,7 +34,6 @@ public class DriverManager {
 
     public static void initializeBrowser() {
         GemTestReporter2.addTestStep("initialize Browser", "No browser provided <BR> set to default browser CHROME", STATUS.PASS);
-
         System.out.println("No browser provided /n set to default browser CHROME");
         initializeBrowser("Chrome");
     }
@@ -62,6 +62,7 @@ public class DriverManager {
                 }
             }
         } catch (Exception e) {
+            GemTestReporter2.addTestStep("initialize Browser", "Browser initialization Failed ", STATUS.FAIL);
             e.printStackTrace();
         }
     }
