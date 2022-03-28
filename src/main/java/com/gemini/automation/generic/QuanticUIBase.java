@@ -32,7 +32,8 @@ public class QuanticUIBase extends QuanticGenericUtils {
     public void beforeMethod(Method method) {
 
         String testcaseName = method.getName();
-        GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);
+        String productType = ProjectProperties.getProperty("productType") == null ? "GemJavaProject" : ProjectProperties.getProperty("productType");
+        GemTestReporter2.startTestCase(testcaseName, "test", productType, false);
         DriverManager.initializeBrowser(QuanticGlobalVar.browserInTest);
         DriverAction driverAction = new DriverAction();
         driverAction.maximizeBrowser();
@@ -59,12 +60,12 @@ public class QuanticUIBase extends QuanticGenericUtils {
     }
 
     @AfterTest
-    public void afterTest(){
+    public void afterTest() {
 
     }
 
     @AfterSuite
-    public void afterSuite(){
+    public void afterSuite() {
         //Report
 //        GemTestReporter.endSuite();
         GemTestReporter2.endSuite();
