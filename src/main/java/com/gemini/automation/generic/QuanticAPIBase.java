@@ -21,8 +21,21 @@ public class QuanticAPIBase extends QuanticGenericUtils {
         ProjectApiUrl.initializeApiUrl(ip);
         ProjectSampleJson.loadSampleJson();
 
+
+        String loc = null;
+        if(quanticProperty.containsKey("reportLocation")){
+            loc = quanticProperty.getProperty("reportLocation");
+        }
+        else if(ProjectProperties.getStringPropertyNames().contains("reportLocation")){
+            loc = ProjectProperties.getProperty("reportLocation");
+        }
+        else {
+            loc = null;
+        }
+
+
         // Initializing startSuite of Gem-Reporting
-        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
+        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment,loc);
     }
 
     @BeforeTest
@@ -37,6 +50,10 @@ public class QuanticAPIBase extends QuanticGenericUtils {
     public void beforeMethod(Method method) {
         String testcaseName = method.getName();
         TestCaseData.setCurrentTestCaseData(testcaseName);
+
+
+
+
         String productType = ProjectProperties.getProperty("productType") == null ? "GemJavaProject" : ProjectProperties.getProperty("productType");
         GemTestReporter2.startTestCase(testcaseName, "test", productType, false);
         GemTestReporter2.startTestCase(testcaseName, "test", "GemJavaProject", false);

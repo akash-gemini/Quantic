@@ -21,23 +21,26 @@ public class DriverAction {
     private static final String PASS = "Pass";
     private static final String FAIL = "Fail";
 
-    public static void launchUrl(String url) {
+    public static void launchUrl(String url,boolean report) {
+
         try {
-            GemTestReporter2.addTestStep("Launch Url", "Url ~" + url, STATUS.PASS);
             DriverManager.getWebDriver().get(url);
+            if(report) {
+                GemTestReporter2.addTestStep("Launch Url", "Url ~" + url, STATUS.PASS);
+            }
         } catch (Exception e) {
-            GemTestReporter2.addTestStep("Launch Url", "Launch Url Failed <BR>Url ~" + url, STATUS.FAIL);
+            if(report) {
+                GemTestReporter2.addTestStep("Launch Url", "Launch Url Failed <BR>Url ~" + url, STATUS.FAIL);
+            }
             e.printStackTrace();
         }
     }
 
-    public static void launchUrlWithoutReporting(String url) {
-        try {
-            DriverManager.getWebDriver().get(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void launchUrl(String url) {
+        launchUrl(url,false);
     }
+
+
 
     public static String getTitle(String url) {
         try {
@@ -469,12 +472,9 @@ public class DriverAction {
             WebElement element = getElement(locator);
             element.click();
             GemTestReporter2.addTestStep("Click on ","Click Successful on "+elementLabel,STATUS.PASS);
-            System.out.println("Successful to Click on " + elementLabel);
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter2.addTestStep("Click on ","Click Failed on "+elementLabel,STATUS.FAIL);
-
-            System.out.println("Failed to Click on " + elementLabel);
         }
     }
 
@@ -483,9 +483,7 @@ public class DriverAction {
             WebElement element = getElement(locator);
             element.click();
             GemTestReporter2.addTestStep(steps,description,STATUS.PASS);
-            System.out.println("Successful to Click ");
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter2.addTestStep(steps,description,STATUS.FAIL);
@@ -719,11 +717,11 @@ public class DriverAction {
 //Copy file at destination
         try {
             FileUtils.copyFile(SrcFile, DestFile);
-            GemTestReporter2.addTestStep("Take screenshot", "ScreenShot loc : " + fileWithPath, STATUS.PASS);
+//            GemTestReporter2.addTestStep("Take screenshot", "ScreenShot loc : " + fileWithPath, STATUS.PASS);
 
         } catch (IOException e) {
             e.printStackTrace();
-            GemTestReporter2.addTestStep("Take screenshot", "ScreenShot Failed", STATUS.FAIL);
+//            GemTestReporter2.addTestStep("Take screenshot", "ScreenShot Failed", STATUS.FAIL);
 
         }
 //        System.out.println("ss loc = " + fileWithPath);

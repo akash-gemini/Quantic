@@ -16,7 +16,21 @@ public class QuanticUIBase extends QuanticGenericUtils {
         initializeQuanticGlobalVariables(iTestContext);
         int numberOfTestCasesToRun = iTestContext.getSuite().getAllInvokedMethods().size();
         //Report
-        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment);
+
+        String loc = null;
+        if(quanticProperty.containsKey("reportLocation")){
+            loc = quanticProperty.getProperty("reportLocation");
+        }
+        else if(ProjectProperties.getStringPropertyNames().contains("reportLocation")){
+            loc = ProjectProperties.getProperty("reportLocation");
+        }
+        else {
+            loc = null;
+        }
+
+
+        // Initializing startSuite of Gem-Reporting
+        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment,loc);
 
     }
 
