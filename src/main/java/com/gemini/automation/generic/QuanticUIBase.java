@@ -2,7 +2,7 @@ package com.gemini.automation.generic;
 
 import com.gemini.automation.listners.QuanticTestngTestFilter;
 import com.qa.gemini.quartzReporting.GemTestReporter;
-import com.qa.gemini.quartzReporting.GemTestReporter2;
+import com.qa.gemini.quartzReporting.GemTestReporter;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 
@@ -18,19 +18,19 @@ public class QuanticUIBase extends QuanticGenericUtils {
         //Report
 
         String loc = null;
-        if(quanticProperty.containsKey("reportLocation")){
-            loc = quanticProperty.getProperty("reportLocation");
+        try {
+            if (quanticProperty.containsKey("reportLocation")) {
+                loc = quanticProperty.getProperty("reportLocation");
+            } else if (ProjectProperties.getStringPropertyNames().contains("reportLocation")) {
+                loc = ProjectProperties.getProperty("reportLocation");
+            } else {
+                loc = null;
+            }
+        } catch (Exception e) {
+            System.out.println("Some Error Occur With reportLocation . Default reportLocation Set");
         }
-        else if(ProjectProperties.getStringPropertyNames().contains("reportLocation")){
-            loc = ProjectProperties.getProperty("reportLocation");
-        }
-        else {
-            loc = null;
-        }
-
-
         // Initializing startSuite of Gem-Reporting
-        GemTestReporter2.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment,loc);
+        GemTestReporter.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment, loc);
 
     }
 
@@ -47,7 +47,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
 
         String testcaseName = method.getName();
         String productType = ProjectProperties.getProperty("productType") == null ? "GemJavaProject" : ProjectProperties.getProperty("productType");
-        GemTestReporter2.startTestCase(testcaseName, "test", productType, false);
+        GemTestReporter.startTestCase(testcaseName, "test", productType, false);
         DriverManager.initializeBrowser(QuanticGlobalVar.browserInTest);
         DriverAction driverAction = new DriverAction();
         driverAction.maximizeBrowser();
@@ -64,7 +64,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
         DriverManager.closeDriver();
         //Report
 //        GemTestReporter.endTestCase();
-        GemTestReporter2.endTestCase();
+        GemTestReporter.endTestCase();
 
 
     }
@@ -82,7 +82,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
     public void afterSuite() {
         //Report
 //        GemTestReporter.endSuite();
-        GemTestReporter2.endSuite();
+        GemTestReporter.endSuite();
         //send mail
     }
 
