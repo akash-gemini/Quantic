@@ -33,16 +33,12 @@ public class DriverManager {
 
 
     public static void initializeBrowser() {
-        GemTestReporter.addTestStep("initialize Browser", "No browser provided <BR> set to default browser CHROME", STATUS.PASS);
-        System.out.println("No browser provided /n set to default browser CHROME");
         initializeBrowser("Chrome");
     }
 
     public static void initializeBrowser(String browserName) {
         try {
-            GemTestReporter.addTestStep("initialize Browser", "Browser set to ~ "+browserName, STATUS.PASS);
             if (browserName == null) {
-                System.out.println("No browser provided /n set to default browser CHROME");
                 WebDriverManager.chromedriver().setup();
                 setWebDriver(new ChromeDriver());
             } else {
