@@ -19,8 +19,8 @@ public class QuanticUIBase extends QuanticGenericUtils {
 
         String loc = null;
         try {
-            if (quanticProperty.containsKey("reportLocation")) {
-                loc = quanticProperty.getProperty("reportLocation");
+            if (System.getProperty("reportLocation")!=null && System.getProperty("reportLocation").isEmpty()) {
+                loc = System.getProperty("reportLocation");
             } else if (ProjectProperties.getStringPropertyNames().contains("reportLocation")) {
                 loc = ProjectProperties.getProperty("reportLocation");
             } else {

@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.qa.gemini.quartzReporting.GemTestReporter;
 import com.qa.gemini.quartzReporting.GemTestReporter;
@@ -18,18 +19,15 @@ import org.openqa.selenium.*;
 
 public class DriverAction {
 
-    private static final String PASS = "Pass";
-    private static final String FAIL = "Fail";
 
-    public static void launchUrl(String url,boolean report) {
-
+    public static void launchUrl(String url, boolean report) {
         try {
             DriverManager.getWebDriver().get(url);
-            if(report) {
+            if (report) {
                 GemTestReporter.addTestStep("Launch Url", "Url ~" + url, STATUS.PASS);
             }
         } catch (Exception e) {
-            if(report) {
+            if (report) {
                 GemTestReporter.addTestStep("Launch Url", "Launch Url Failed <BR>Url ~" + url, STATUS.FAIL);
             }
             e.printStackTrace();
@@ -37,65 +35,63 @@ public class DriverAction {
     }
 
     public static void launchUrl(String url) {
-        launchUrl(url,false);
+        launchUrl(url, false);
     }
 
 
-
-    public static String getTitle(String url) {
+    public static String getTitle(String url, Boolean report) {
         try {
             String title = DriverManager.getWebDriver().getTitle();
-            GemTestReporter.addTestStep("Get Title", "Title ~" + title, STATUS.PASS);
+            if (report) {
+                GemTestReporter.addTestStep("Get Title", "Title ~" + title, STATUS.PASS);
+            }
             return title;
         } catch (Exception e) {
             GemTestReporter.addTestStep("Get Title", "Get Title Failed", STATUS.FAIL);
-
             e.printStackTrace();
             return null;
         }
     }
 
-    public static String getTitleWithoutReporting(String url) {
-        try {
-            String title = DriverManager.getWebDriver().getTitle();
-            return title;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static String getTitle(String url) {
+        return getTitle(url, false);
     }
 
-    public static void maximizeBrowser() {
+    public static void maximizeBrowser(Boolean report) {
         try {
-            GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Successful ", STATUS.PASS);
             DriverManager.getWebDriver().manage().window().maximize();
+            if (report) {
+                GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Successful ", STATUS.PASS);
+            }
         } catch (Exception e) {
             GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
-    public static void maximizeBrowserWithoutReporting() {
+    public static void maximizeBrowser() {
         try {
-            DriverManager.getWebDriver().manage().window().maximize();
+            maximizeBrowser(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void minimizeBrowser() {
+    public static void minimizeBrowser(Boolean report) {
         try {
-            GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Successful", STATUS.PASS);
             DriverManager.getWebDriver().manage().window().minimize();
+            if (report) {
+                GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Successful", STATUS.PASS);
+            }
         } catch (Exception e) {
             GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
-    public static void minimizeBrowserWithoutReporting() {
+    public static void minimizeBrowser() {
         try {
-            DriverManager.getWebDriver().manage().window().minimize();
+            minimizeBrowser(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,47 +107,49 @@ public class DriverAction {
     }
 
 
-    public static void setBrowserSize(int width, int height) {
+    public static void setBrowserSize(int width, int height, Boolean report) {
         try {
-            GemTestReporter.addTestStep("Set Browser Size", "Browser Size Set To <BR> width ~ " + width + "<BR> height ~ " + height, STATUS.PASS);
             Dimension dimension = new Dimension(width, height);
             DriverManager.getWebDriver().manage().window().setSize(dimension);
+            if (report) {
+                GemTestReporter.addTestStep("Set Browser Size", "Browser Size Set To <BR> width ~ " + width + "<BR> height ~ " + height, STATUS.PASS);
+            }
         } catch (Exception e) {
             GemTestReporter.addTestStep("Set Browser Size", "Set Browser Size Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
-    public static void setBrowserSizeWithoutReporting(int width, int height) {
+    public static void setBrowserSize(int width, int height) {
         try {
-            Dimension dimension = new Dimension(width, height);
-            DriverManager.getWebDriver().manage().window().setSize(dimension);
+            setBrowserSize(width, height, false);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setBrowserPosition(int x, int y, Boolean report) {
+        try {
+            Point point = new Point(x, y);
+            DriverManager.getWebDriver().manage().window().setPosition(point);
+            if (report) {
+                GemTestReporter.addTestStep("Set Browser Position", "Browser Position Set To <BR> x ~ " + x + "<BR> y ~ " + y, STATUS.PASS);
+            }
+        } catch (Exception e) {
+            GemTestReporter.addTestStep("Set Browser Position", "Set Browser Position Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void setBrowserPosition(int x, int y) {
         try {
-            GemTestReporter.addTestStep("Set Browser Position", "Browser Position Set To <BR> x ~ " + x + "<BR> y ~ " + y, STATUS.PASS);
-            Point point = new Point(x, y);
-            DriverManager.getWebDriver().manage().window().setPosition(point);
-        } catch (Exception e) {
-            GemTestReporter.addTestStep("Set Browser Position", "Set Browser Position Failed",STATUS.FAIL);
-            e.printStackTrace();
-        }
-    }
-
-    public static void setBrowserPositionWithoutReporting(int x, int y) {
-        try {
-            Point point = new Point(x, y);
-            DriverManager.getWebDriver().manage().window().setPosition(point);
+            setBrowserSize(x, y, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Point getBrowserLocation() {//change return
+    public static Point getBrowserLocation() {
         try {
             Point p = DriverManager.getWebDriver().manage().window().getPosition();
             return p;
@@ -166,7 +164,7 @@ public class DriverAction {
 
     public static void waitSec(long seconds) {
         try {
-            Thread.sleep(seconds*1000);
+            Thread.sleep(seconds * 1000);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,77 +196,81 @@ public class DriverAction {
 
     ///Navigation
 
-    public static void navigateBack() {
+    public static void navigateBack(Boolean report) {
         try {
-            GemTestReporter.addTestStep("Navigate Back", "Navigate Back Successful", STATUS.PASS);
             DriverManager.getWebDriver().navigate().back();
+            if (report) {
+                GemTestReporter.addTestStep("Navigate Back", "Navigate Back Successful", STATUS.PASS);
+            }
         } catch (Exception e) {
             GemTestReporter.addTestStep("Navigate Back", "Navigate Back Failed", STATUS.FAIL);
-
             e.printStackTrace();
         }
     }
 
-    public static void navigateBackWithoutReporting() {
+    public static void navigateBack() {
         try {
-            DriverManager.getWebDriver().navigate().back();
+            navigateBack(false);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void navigateRefresh(boolean report) {
+        try {
+            DriverManager.getWebDriver().navigate().refresh();
+            if (report) {
+                GemTestReporter.addTestStep("Refresh Page", "Page Refresh Successful", STATUS.PASS);
+            }
+        } catch (Exception e) {
+            GemTestReporter.addTestStep("Refresh Page", "Page Refresh Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void navigateRefresh() {
         try {
-            GemTestReporter.addTestStep("Refresh Page", "Page Refresh Successful", STATUS.PASS);
-            DriverManager.getWebDriver().navigate().refresh();
+            navigateRefresh(false);
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Refresh Page", "Page Refresh Failed", STATUS.FAIL);
-
             e.printStackTrace();
         }
     }
 
-    public static void navigateRefreshWithoutReporting() {
+    public static void navigateForward(Boolean report) {
         try {
-            DriverManager.getWebDriver().navigate().refresh();
+            DriverManager.getWebDriver().navigate().forward();
+            if (report) {
+                GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Successful ", STATUS.PASS);
+            }
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Failed ", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void navigateForward() {
         try {
-            GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Successful ", STATUS.PASS);
-            DriverManager.getWebDriver().navigate().forward();
+            navigateForward(false);
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Failed ", STATUS.FAIL);
-
             e.printStackTrace();
         }
     }
 
-    public static void navigateForwardWithoutReporting() {
+    public static void navigateToUrl(String url, Boolean report) {
         try {
-            DriverManager.getWebDriver().navigate().forward();
+            DriverManager.getWebDriver().navigate().to(url);
+            if (report) {
+                GemTestReporter.addTestStep("Navigate to Url", "Navigation to Url Successful<BR>URL ~ " + url, STATUS.PASS);
+            }
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Navigate to Url", "Navigation to Url Failed<BR>URL ~ " + url, STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void navigateToUrl(String url) {
         try {
-            GemTestReporter.addTestStep("Navigate to Url","Navigation to Url Successful<BR>URL ~ "+url,STATUS.PASS);
-            DriverManager.getWebDriver().navigate().to(url);
-        } catch (Exception e) {
-            GemTestReporter.addTestStep("Navigate to Url","Navigation to Url Failed<BR>URL ~ "+url,STATUS.FAIL);
-
-            e.printStackTrace();
-        }
-    }
-
-    public static void navigateToUrlWithoutReporting(String url) {
-        try {
-            DriverManager.getWebDriver().navigate().to(url);
+            navigateToUrl(url, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -295,6 +297,16 @@ public class DriverAction {
             return null;
         }
     }
+
+    public static Set<String> getWindowHandles() {
+        try {
+            return DriverManager.getWebDriver().getWindowHandles();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static String getCurrentURL() {
         try {
@@ -371,51 +383,70 @@ public class DriverAction {
         }
     }
 
-    public static void switchToAlert() {
+    public static void switchToAlert(Boolean report) {
         try {
             DriverManager.getWebDriver().switchTo().alert();
-            GemTestReporter.addTestStep("Switch To Alert","Switch To Alert Successful",STATUS.PASS);
+            if (report) {
+                GemTestReporter.addTestStep("Switch To Alert", "Switch To Alert Successful", STATUS.PASS);
+            }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Switch To Alert","Switch To Alert Failed",STATUS.FAIL);
+            GemTestReporter.addTestStep("Switch To Alert", "Switch To Alert Failed", STATUS.FAIL);
 
+            e.printStackTrace();
+        }
+    }
+
+    public static void switchToAlert() {
+        switchToAlert(false);
+    }
+
+
+    public static void AcceptAlert(Boolean report) {
+        try {
+            DriverManager.getWebDriver().switchTo().alert().accept();
+            if (report) {
+                GemTestReporter.addTestStep("Accept Alert", "Alert Accepted Successful", STATUS.PASS);
+            }
+        } catch (Exception e) {
+            GemTestReporter.addTestStep("Accept Alert", "Alert Accepted Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void AcceptAlert() {
+        AcceptAlert(false);
+    }
+
+    public static void DismissAlert(Boolean report) {
         try {
-            DriverManager.getWebDriver().switchTo().alert().accept();
-            GemTestReporter.addTestStep("Accept Alert","Alert Accepted Successful",STATUS.PASS);
-
+            DriverManager.getWebDriver().switchTo().alert().dismiss();
+            if (report) {
+                GemTestReporter.addTestStep("Dismiss Alert", "Alert Dismissed Successful", STATUS.PASS);
+            }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Accept Alert","Alert Accepted Failed",STATUS.FAIL);
-
+            GemTestReporter.addTestStep("Dismiss Alert", "Alert Dismissed Failed", STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void DismissAlert() {
+        DismissAlert(false);
+    }
+
+    public static void AlertInput(String input, Boolean report) {
         try {
-            DriverManager.getWebDriver().switchTo().alert().dismiss();
-            GemTestReporter.addTestStep("Dismiss Alert","Alert Dismissed Successful",STATUS.PASS);
-
+            DriverManager.getWebDriver().switchTo().alert().sendKeys(input);
+            if (report) {
+                GemTestReporter.addTestStep("SendKeys To Alert", "SendKeys To Alert Successful <BR> input ~ " + input, STATUS.PASS);
+            }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Dismiss Alert","Alert Dismissed Failed",STATUS.FAIL);
-
+            GemTestReporter.addTestStep("SendKeys To Alert", "SendKeys To Alert Failed <BR> input ~ " + input, STATUS.FAIL);
             e.printStackTrace();
         }
     }
 
     public static void AlertInput(String input) {
-        try {
-            DriverManager.getWebDriver().switchTo().alert().sendKeys(input);
-            GemTestReporter.addTestStep("SendKeys To Alert","SendKeys To Alert Successful <BR> input ~ "+input,STATUS.PASS);
-
-        } catch (Exception e) {
-            GemTestReporter.addTestStep("SendKeys To Alert","SendKeys To Alert Failed <BR> input ~ "+input,STATUS.FAIL);
-
-            e.printStackTrace();
-        }
+        AlertInput(input);
     }
 
     //////////////Web Elements///////////////////
@@ -467,75 +498,87 @@ public class DriverAction {
 
     //////////////////Click Operation/////////////////
 
-    public static void click(By locator, String elementLabel) {
+    public static void click(By locator, String elementLabel, Boolean report) {
         try {
             WebElement element = getElement(locator);
             element.click();
-            GemTestReporter.addTestStep("Click on ","Click Successful on "+elementLabel,STATUS.PASS);
+            if (report) {
+                GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Click on ","Click Failed on "+elementLabel,STATUS.FAIL);
+            GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL);
+        }
+    }
+
+    public static void click(By locator) {
+        try {
+            click(locator, "", false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void click(By locator, String steps, String description, Boolean report) {
+        try {
+            WebElement element = getElement(locator);
+            element.click();
+            if (report) {
+                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
     public static void click(By locator, String steps, String description) {
         try {
-            WebElement element = getElement(locator);
-            element.click();
-            GemTestReporter.addTestStep(steps,description,STATUS.PASS);
-
+            click(locator, steps, description, false);
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps,description,STATUS.FAIL);
-            System.out.println("Failed to Click ");
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
+        }
+    }
+
+
+    public static void click(WebElement webElement, String steps, String description, Boolean report) {
+        try {
+            webElement.click();
+            if (report) {
+                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
     public static void click(WebElement webElement, String steps, String description) {
         try {
-            webElement.click();
-            GemTestReporter.addTestStep(steps,description,STATUS.PASS);
-            System.out.println("Successful to Click on web element : " + webElement);
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            click(webElement, "", "", false);
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps,description,STATUS.FAIL);
-            System.out.println("Failed to Click on web element : " + webElement);
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
-    public static void click(WebElement webElement, String elementLabel) {
+    public static void click(WebElement webElement, String elementLabel, Boolean report) {
         try {
             webElement.click();
-            GemTestReporter.addTestStep("Click on ","Click Successful on "+elementLabel,STATUS.PASS);
-            System.out.println("Successful to Click on web element : " + webElement);
-            System.out.println("element label : " + elementLabel);
+            if (report) {
+                GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Click on ","Click Failed on "+elementLabel,STATUS.FAIL);
-
-            System.out.println("Failed to Click on web element : " + webElement);
-            System.out.println("element label : " + elementLabel);
+            GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL);
         }
     }
 
-    public static void clickWithoutReporting(By locator) {
-        try {
-            WebElement element = getElement(locator);
-            element.click();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void clickWithoutReporting(WebElement webElement) {
+    public static void click(WebElement webElement) {
         try {
-            webElement.click();
+            click(webElement, "", false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -543,96 +586,85 @@ public class DriverAction {
 
     /////////////////Type Operation//////////////////////
 
-    public static void typeText(By locator, String textToEnter, String steps, String description) {
+    public static void typeText(By locator, String textToEnter, String steps, String description, Boolean report) {
         try {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-            GemTestReporter.addTestStep(steps,description,STATUS.PASS);
-            System.out.println("TypeText Successful ");
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            if (report) {
+                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps,description,STATUS.FAIL);
-
-            System.out.println("TypeText Failed");
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
-    public static void typeTextWithoutReporting(By locator, String textToEnter) {
+    public static void typeText(By locator, String steps, String description, String textToEnter) {
         try {
-            WebElement element = getElement(locator);
-            element.clear();
-            element.sendKeys(textToEnter);
+            typeText(locator, textToEnter, "", "", false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void typeText(By locator, String textToEnter, String elementLabel) {
+    public static void typeText(By locator, String textToEnter, String elementLabel, Boolean report) {
         try {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-            GemTestReporter.addTestStep("Type on "+elementLabel,"Type Text Successful<BR>Type Text ~"+textToEnter,STATUS.PASS);
-            System.out.println("TypeText Successful ");
-            System.out.println("Text to Enter : " + textToEnter);
-            System.out.println("element Label : " + elementLabel);
+            if (report) {
+                GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Type on "+elementLabel,"Type Text Failed<BR>Type Text ~"+textToEnter,STATUS.FAIL);
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
+        }
+    }
 
-            System.out.println("TypeText Failed");
-            System.out.println("Text to Enter : " + textToEnter);
-            System.out.println("element Label : " + elementLabel);
+    public static void typeText(By locator, String textToEnter) {
+        typeText(locator, textToEnter, "", false);
+    }
+
+
+    public static void typeText(WebElement element, String textToEnter, String steps, String description, Boolean report) {
+        try {
+            element.clear();
+            element.sendKeys(textToEnter);
+            if (report) {
+                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
     public static void typeText(WebElement element, String textToEnter, String steps, String description) {
+        typeText(element, textToEnter, steps, description, false);
+    }
+
+    public static void typeText(WebElement element, String textToEnter, String elementLabel, Boolean report) {
         try {
             element.clear();
             element.sendKeys(textToEnter);
-            GemTestReporter.addTestStep(steps,description,STATUS.PASS);
-            System.out.println("TypeText Successful ");
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            if (report) {
+                GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps,description,STATUS.FAIL);
-            System.out.println("TypeText Failed");
-            System.out.println("Steps : " + steps);
-            System.out.println("Description : " + description);
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
         }
     }
 
-    public static void typeTextWithoutReporting(WebElement element, String textToEnter) {
+    public static void typeText(WebElement element, String textToEnter) {
         try {
-            element.clear();
-            element.sendKeys(textToEnter);
+            typeText(element, textToEnter, "", false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void typeText(WebElement element, String textToEnter, String elementLabel) {
-        try {
-            element.clear();
-            element.sendKeys(textToEnter);
-            GemTestReporter.addTestStep("Type on "+elementLabel,"Type Text Successful<BR>Type Text ~"+textToEnter,STATUS.PASS);
-            System.out.println("TypeText Successful ");
-            System.out.println("Text to Enter : " + textToEnter);
-            System.out.println("element Label : " + elementLabel);
-        } catch (Exception e) {
-            e.printStackTrace();
-            GemTestReporter.addTestStep("Type on "+elementLabel,"Type Text Failed<BR>Type Text ~"+textToEnter,STATUS.FAIL);
-            System.out.println("TypeText Failed");
-            System.out.println("Text to Enter : " + textToEnter);
-            System.out.println("element Label : " + elementLabel);
-        }
-    }
 
     //////////////Accessible name////////////////////
 

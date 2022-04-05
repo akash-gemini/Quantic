@@ -144,7 +144,7 @@ public class ApiClientConnect {
                 httpsCon.setDoOutput(true);
                 httpsCon.setRequestMethod(method.toUpperCase());
                 if (method.equalsIgnoreCase("Patch")) {
-                    httpsCon.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+                    httpsCon.setRequestProperty("X-HTTP-Method-Override", "POST");
                 }
                 httpsCon.setReadTimeout(100000);
 
