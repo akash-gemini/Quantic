@@ -17,7 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
+import com.qa.gemini.quartzReporting.GemTestReporter2;
+import com.qa.gemini.quartzReporting.STATUS;
 
 public class ApiClientConnect {
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -125,75 +126,15 @@ public class ApiClientConnect {
     }
 
 
-
-
-//    private static JsonObject executeRequest(String method,String url, String requestPayload, String contentType) {
-//        Authenticator.setDefault(new MyAuthenticator());
-//        HttpURLConnection httpsCon;
-//        long startTime = Instant.now().toEpochMilli();
-//
-//        try {
-//            URL requestUrl = new URL(url);
-//            String requestProtocol = requestUrl.getProtocol();
-//            httpsCon = requestProtocol.equals("https") ? createSSLDisabledHttpsUrlConnection(requestUrl) : (HttpURLConnection) requestUrl.openConnection();
-//
-//            if(method.equalsIgnoreCase("Get") || method.equalsIgnoreCase("delete")){
-//                httpsCon.setRequestMethod(method.toUpperCase());
-//            }
-//            else {
-//                httpsCon.setConnectTimeout(100000);
-//                httpsCon.setDoInput(true);
-//                httpsCon.setDoOutput(true);
-//                if(method.equalsIgnoreCase("patch")){
-//                    httpsCon.setRequestMethod("POST");
-//                    httpsCon.setRequestProperty("X-HTTP-Method-Override", "PATCH");
-//                }else{
-//                    httpsCon.setRequestMethod(method.toUpperCase());
-//                }
-//
-//                httpsCon.setReadTimeout(100000);
-//
-//                httpsCon.setRequestProperty("Content-Type", "application/json");
-//                if (contentType != "json") {
-//                    httpsCon.setRequestProperty("Content-Type", "multipart/form-data");
-//                }
-//                httpsCon.setRequestProperty("accept", "application/json, text/plain, */*");
-//                httpsCon.setRequestProperty("Connection", "keep-alive");
-//                httpsCon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36");
-//
-//                writeDataToOutputStream(httpsCon.getOutputStream(), requestPayload);
-//            }
-//            httpsCon.connect();
-//
-//            int statusCode = httpsCon.getResponseCode();
-//            String responseMessage = httpsCon.getResponseMessage();
-//            String errorMessage = getDataFromBufferedReader(httpsCon.getErrorStream());
-//            String responseBody = errorMessage == null ? getDataFromBufferedReader(httpsCon.getInputStream()) : null;
-//            long executionTime = Instant.now().toEpochMilli() - startTime;
-//            JsonObject responseJSON = new JsonObject();
-//
-//            responseJSON.addProperty("status", statusCode);
-//            responseJSON.addProperty("responseMessage", responseMessage);
-//            responseJSON.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
-//            responseJSON.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
-//            responseJSON.addProperty("execTime", executionTime);
-//
-//            httpsCon.disconnect();
-//            return responseJSON;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
-
     // Main Function to execute the request as per requirement
-    private static JsonObject executeCreateRequest(String method, String url, String requestPayload,String contentType,Map<String, String> headers){
+    private static JsonObject executeCreateRequest(String method, String url, String requestPayload,String contentType,Map<String, String> headers,boolean isReporting){
         Authenticator.setDefault(new MyAuthenticator());
         HttpURLConnection httpsCon;
 
         long startTime = Instant.now().toEpochMilli();
         method = method.toUpperCase();
+
+        String requestHeaders = null;
 
         try {
             URL requestUrl = new URL(url);
@@ -288,6 +229,7 @@ public class ApiClientConnect {
                 }
             }
 
+            requestHeaders = httpsCon.getHeaderFields().toString();
             httpsCon.connect();
             int statusCode = httpsCon.getResponseCode();
             String responseMessage = httpsCon.getResponseMessage();
@@ -301,6 +243,18 @@ public class ApiClientConnect {
             responseJSON.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
             responseJSON.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
             responseJSON.addProperty("execTime", executionTime + " ms");
+
+            if(isReporting) {
+                GemTestReporter2.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>",
+                        "<b>Request Url :</b>" + url + "<br> <b>RequestHeaders :</b>" + requestHeaders, STATUS.INFO);
+
+                String description = "<b>Status : </b>" + statusCode + "<br> <b>ResponseMessage : </b>" + responseMessage + "<br> <b>ResponseBody: </b>" + responseBody + "<br> <b>ExecutionTime: </b>" + executionTime+" ms";
+                if (statusCode >= 200 && statusCode < 300) {
+                    GemTestReporter2.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>", description, STATUS.PASS);
+                }else{
+                    GemTestReporter2.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>", description, STATUS.FAIL);
+                }
+            }
             return responseJSON;
 
         } catch (Exception e) {
@@ -311,48 +265,89 @@ public class ApiClientConnect {
 
     // Method to execute PUT requests
     public static JsonObject PutRequest(String url, String requestPayload, String contentType) {
-        JsonObject response = executeCreateRequest("PUT",url,requestPayload,contentType,null);
+        JsonObject response = executeCreateRequest("PUT",url,requestPayload,contentType,null,false);
+        return response;
+    }
+
+    public static JsonObject PutRequestWithReporting(String url, String requestPayload, String contentType) {
+        JsonObject response = executeCreateRequest("PUT",url,requestPayload,contentType,null,true);
         return response;
     }
 
     public static JsonObject PutRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
-        JsonObject response = executeCreateRequest("PUT",url,requestPayload,contentType,headers);
+        JsonObject response = executeCreateRequest("PUT",url,requestPayload,contentType,headers,false);
         return response;
     }
+
+    public static JsonObject PutRequestWithReporting(String url, String requestPayload, String contentType,Map<String,String> headers) {
+        JsonObject response = executeCreateRequest("PUT",url,requestPayload,contentType,headers,true);
+        return response;
+    }
+
 
 
     // Method to execute POST Requests
     public static JsonObject PostRequest(String url, String requestPayload, String contentType) {
-        JsonObject response = executeCreateRequest("POST",url,requestPayload,contentType,null);
+        JsonObject response = executeCreateRequest("POST",url,requestPayload,contentType,null,false);
+        return response;
+    }
+
+    public static JsonObject PostRequestWithReporting(String url, String requestPayload, String contentType) {
+        JsonObject response = executeCreateRequest("POST",url,requestPayload,contentType,null,true);
         return response;
     }
 
     public static JsonObject PostRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
-        JsonObject response = executeCreateRequest("POST",url,requestPayload,contentType,headers);
+        JsonObject response = executeCreateRequest("POST",url,requestPayload,contentType,headers,false);
+        return response;
+    }
+
+    public static JsonObject PostRequestWithReporting(String url, String requestPayload, String contentType,Map<String,String> headers) {
+        JsonObject response = executeCreateRequest("POST",url,requestPayload,contentType,headers,true);
         return response;
     }
 
 
     // Method to execute Patch requests
     public static JsonObject PatchRequest(String url, String requestPayload, String contentType) {
-        JsonObject response = executeCreateRequest("PATCH",url,requestPayload,contentType,null);
+        JsonObject response = executeCreateRequest("PATCH",url,requestPayload,contentType,null,false);
+        return response;
+    }
+
+    public static JsonObject PatchRequestWithReporting(String url, String requestPayload, String contentType) {
+        JsonObject response = executeCreateRequest("PATCH",url,requestPayload,contentType,null,true);
         return response;
     }
 
     public static JsonObject PatchRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
-        JsonObject response = executeCreateRequest("PATCH",url,requestPayload,contentType,null);
+        JsonObject response = executeCreateRequest("PATCH",url,requestPayload,contentType,null,false);
+        return response;
+    }
+
+    public static JsonObject PatchRequestWithReporting(String url, String requestPayload, String contentType,Map<String,String> headers) {
+        JsonObject response = executeCreateRequest("PATCH",url,requestPayload,contentType,null,true);
         return response;
     }
 
     // Method to execute GET Request
     public static JsonObject GetRequest(String url){
-        JsonObject response = executeCreateRequest("GET",url,null,null,null);
+        JsonObject response = executeCreateRequest("GET",url,null,null,null,false);
+        return response;
+    }
+
+    public static JsonObject GetRequestWithReporting(String url){
+        JsonObject response = executeCreateRequest("GET",url,null,null,null,true);
         return response;
     }
 
     // Method to execute Delete Request
     public static JsonObject DeleteRequest(String url){
-        JsonObject response = executeCreateRequest("Delete",url,null,null,null);
+        JsonObject response = executeCreateRequest("Delete",url,null,null,null,false);
+        return response;
+    }
+
+    public static JsonObject DeleteRequestWithReporting(String url){
+        JsonObject response = executeCreateRequest("Delete",url,null,null,null,true);
         return response;
     }
 
@@ -373,14 +368,19 @@ public class ApiClientConnect {
             e.printStackTrace();
             return null;
         }
-        JsonObject responseJson = executeCreateRequest(method, url, payload.toString(),contentType, headers);
+        JsonObject responseJson = executeCreateRequest(method, url, payload.toString(),contentType, headers,false);
         return responseJson;
     }
 
 
     // Method to execute request for File requestPayload without contentType
     public static JsonObject CreateRequest(String method, String url, String requestPayload, Map<String, String> headers) {
-        JsonObject responseJson = executeCreateRequest(method, url, requestPayload.toString(),null, headers);
+        JsonObject responseJson = executeCreateRequest(method, url, requestPayload.toString(),null, headers,false);
+        return responseJson;
+    }
+
+    public static JsonObject CreateRequestWithReporting(String method, String url, String requestPayload, Map<String, String> headers) {
+        JsonObject responseJson = executeCreateRequest(method, url, requestPayload.toString(),null, headers,true);
         return responseJson;
     }
 
@@ -389,6 +389,13 @@ public class ApiClientConnect {
         JsonObject responseJson = CreateRequest(method, url, requestPayload,null, headers);
         return responseJson;
     }
+
+
+    public static JsonObject CreateRequestWithReporting(String method, String url, File requestPayload, Map<String, String> headers) {
+        JsonObject responseJson = executeCreateRequest(method, url, requestPayload.toString(),null, headers,true);
+        return responseJson;
+    }
+
 
 
 }

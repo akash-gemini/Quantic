@@ -84,6 +84,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
 //        GemTestReporter.endSuite();
         GemTestReporter.endSuite();
         //send mail
+//        QuanticGenericUtils.sendMail();
     }
 
 

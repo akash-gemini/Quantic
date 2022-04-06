@@ -498,13 +498,12 @@ public class DriverAction {
 
     //////////////////Click Operation/////////////////
 
-    public static void click(By locator, String elementLabel, Boolean report) {
+    public static void click(By locator, String elementLabel) {
         try {
             WebElement element = getElement(locator);
             element.click();
-            if (report) {
-                GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
-            }
+            GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
+
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL);
@@ -513,62 +512,50 @@ public class DriverAction {
 
     public static void click(By locator) {
         try {
-            click(locator, "", false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void click(By locator, String steps, String description, Boolean report) {
-        try {
             WebElement element = getElement(locator);
             element.click();
-            if (report) {
-                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
     public static void click(By locator, String steps, String description) {
         try {
-            click(locator, steps, description, false);
+            WebElement element = getElement(locator);
+            element.click();
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
-
-    public static void click(WebElement webElement, String steps, String description, Boolean report) {
-        try {
-            webElement.click();
-            if (report) {
-                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
-        }
-    }
 
     public static void click(WebElement webElement, String steps, String description) {
         try {
-            click(webElement, "", "", false);
+            webElement.click();
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
-    public static void click(WebElement webElement, String elementLabel, Boolean report) {
+    public static void click(WebElement webElement) {
         try {
             webElement.click();
-            if (report) {
-                GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            GemTestReporter.addTestStep("Some error occur while Click", "Error Occur", STATUS.FAIL);
+        }
+    }
+
+    public static void click(WebElement webElement, String elementLabel) {
+        try {
+            webElement.click();
+            GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL);
@@ -576,94 +563,74 @@ public class DriverAction {
     }
 
 
-    public static void click(WebElement webElement) {
-        try {
-            click(webElement, "", false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /////////////////Type Operation//////////////////////
 
-    public static void typeText(By locator, String textToEnter, String steps, String description, Boolean report) {
+    public static void typeText(By locator, String textToEnter, String steps, String description) {
         try {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-            if (report) {
-                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
-            }
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
-        }
-    }
-
-    public static void typeText(By locator, String steps, String description, String textToEnter) {
-        try {
-            typeText(locator, textToEnter, "", "", false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void typeText(By locator, String textToEnter, String elementLabel, Boolean report) {
-        try {
-            WebElement element = getElement(locator);
-            element.clear();
-            element.sendKeys(textToEnter);
-            if (report) {
-                GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
         }
     }
 
     public static void typeText(By locator, String textToEnter) {
-        typeText(locator, textToEnter, "", false);
-    }
-
-
-    public static void typeText(WebElement element, String textToEnter, String steps, String description, Boolean report) {
         try {
+            WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-            if (report) {
-                GemTestReporter.addTestStep(steps, description, STATUS.PASS);
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
 
-    public static void typeText(WebElement element, String textToEnter, String steps, String description) {
-        typeText(element, textToEnter, steps, description, false);
-    }
-
-    public static void typeText(WebElement element, String textToEnter, String elementLabel, Boolean report) {
+    public static void typeText(By locator, String textToEnter, String elementLabel) {
         try {
+            WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-            if (report) {
-                GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
-            }
+
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
+
         } catch (Exception e) {
             e.printStackTrace();
             GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
         }
     }
 
-    public static void typeText(WebElement element, String textToEnter) {
+    public static void typeText(WebElement element, String textToEnter, String steps, String description) {
         try {
-            typeText(element, textToEnter, "", false);
+            element.clear();
+            element.sendKeys(textToEnter);
+
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+
         } catch (Exception e) {
             e.printStackTrace();
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
         }
     }
+
+    public static void typeText(WebElement element, String textToEnter) {
+        element.clear();
+        element.sendKeys(textToEnter);
+    }
+
+    public static void typeText(WebElement element, String textToEnter, String elementLabel) {
+        try {
+            element.clear();
+            element.sendKeys(textToEnter);
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
+        }
+    }
+
 
 
     //////////////Accessible name////////////////////
