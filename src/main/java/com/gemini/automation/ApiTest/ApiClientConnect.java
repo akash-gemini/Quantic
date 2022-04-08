@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.qa.gemini.quartzReporting.GemTestReporter2;
+import com.qa.gemini.quartzReporting.GemTestReporter;
 import com.qa.gemini.quartzReporting.STATUS;
 
 public class ApiClientConnect {
@@ -245,14 +245,14 @@ public class ApiClientConnect {
             responseJSON.addProperty("execTime", executionTime + " ms");
 
             if(isReporting) {
-                GemTestReporter2.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>",
+                GemTestReporter.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>",
                         "<b>Request Url :</b>" + url + "<br> <b>RequestHeaders :</b>" + requestHeaders, STATUS.INFO);
 
                 String description = "<b>Status : </b>" + statusCode + "<br> <b>ResponseMessage : </b>" + responseMessage + "<br> <b>ResponseBody: </b>" + responseBody + "<br> <b>ExecutionTime: </b>" + executionTime+" ms";
                 if (statusCode >= 200 && statusCode < 300) {
-                    GemTestReporter2.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>", description, STATUS.PASS);
+                    GemTestReporter.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>", description, STATUS.PASS);
                 }else{
-                    GemTestReporter2.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>", description, STATUS.FAIL);
+                    GemTestReporter.addTestStep("<b>Request: Executing the REST " + method.toUpperCase() + " End point</b>", description, STATUS.FAIL);
                 }
             }
             return responseJSON;
