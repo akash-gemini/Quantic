@@ -24,11 +24,11 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().get(url);
             if (report) {
-                GemTestReporter.addTestStep("Launch Url", "Url ~" + url, STATUS.PASS);
+                GemTestReporter.addTestStep("Launch Url", "Url ~" + url, STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
             if (report) {
-                GemTestReporter.addTestStep("Launch Url", "Launch Url Failed <BR>Url ~" + url, STATUS.FAIL);
+                GemTestReporter.addTestStep("Launch Url", "Launch Url Failed <BR>Url ~" + url, STATUS.FAIL,DriverAction.takeSnapShotBase64());
             }
             e.printStackTrace();
         }
@@ -61,10 +61,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().manage().window().maximize();
             if (report) {
-                GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Successful ", STATUS.PASS);
+                GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Successful ", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Maximize Browser", "Browser Maximize Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -81,10 +81,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().manage().window().minimize();
             if (report) {
-                GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Successful", STATUS.PASS);
+                GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Successful", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Minimize Browser", "Browser Minimize Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -200,10 +200,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().navigate().back();
             if (report) {
-                GemTestReporter.addTestStep("Navigate Back", "Navigate Back Successful", STATUS.PASS);
+                GemTestReporter.addTestStep("Navigate Back", "Navigate Back Successful", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Navigate Back", "Navigate Back Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Navigate Back", "Navigate Back Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -220,10 +220,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().navigate().refresh();
             if (report) {
-                GemTestReporter.addTestStep("Refresh Page", "Page Refresh Successful", STATUS.PASS);
+                GemTestReporter.addTestStep("Refresh Page", "Page Refresh Successful", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Refresh Page", "Page Refresh Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Refresh Page", "Page Refresh Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -240,10 +240,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().navigate().forward();
             if (report) {
-                GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Successful ", STATUS.PASS);
+                GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Successful ", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Failed ", STATUS.FAIL);
+            GemTestReporter.addTestStep("Navigate Forward", "Forward Navigation Failed ", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -260,10 +260,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().navigate().to(url);
             if (report) {
-                GemTestReporter.addTestStep("Navigate to Url", "Navigation to Url Successful<BR>URL ~ " + url, STATUS.PASS);
+                GemTestReporter.addTestStep("Navigate to Url", "Navigation to Url Successful<BR>URL ~ " + url, STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Navigate to Url", "Navigation to Url Failed<BR>URL ~ " + url, STATUS.FAIL);
+            GemTestReporter.addTestStep("Navigate to Url", "Navigation to Url Failed<BR>URL ~ " + url, STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -387,10 +387,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().switchTo().alert();
             if (report) {
-                GemTestReporter.addTestStep("Switch To Alert", "Switch To Alert Successful", STATUS.PASS);
+                GemTestReporter.addTestStep("Switch To Alert", "Switch To Alert Successful", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Switch To Alert", "Switch To Alert Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Switch To Alert", "Switch To Alert Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
 
             e.printStackTrace();
         }
@@ -405,10 +405,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().switchTo().alert().accept();
             if (report) {
-                GemTestReporter.addTestStep("Accept Alert", "Alert Accepted Successful", STATUS.PASS);
+                GemTestReporter.addTestStep("Accept Alert", "Alert Accepted Successful", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Accept Alert", "Alert Accepted Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Accept Alert", "Alert Accepted Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -421,10 +421,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().switchTo().alert().dismiss();
             if (report) {
-                GemTestReporter.addTestStep("Dismiss Alert", "Alert Dismissed Successful", STATUS.PASS);
+                GemTestReporter.addTestStep("Dismiss Alert", "Alert Dismissed Successful", STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("Dismiss Alert", "Alert Dismissed Failed", STATUS.FAIL);
+            GemTestReporter.addTestStep("Dismiss Alert", "Alert Dismissed Failed", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -437,10 +437,10 @@ public class DriverAction {
         try {
             DriverManager.getWebDriver().switchTo().alert().sendKeys(input);
             if (report) {
-                GemTestReporter.addTestStep("SendKeys To Alert", "SendKeys To Alert Successful <BR> input ~ " + input, STATUS.PASS);
+                GemTestReporter.addTestStep("SendKeys To Alert", "SendKeys To Alert Successful <BR> input ~ " + input, STATUS.PASS,DriverAction.takeSnapShotBase64());
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("SendKeys To Alert", "SendKeys To Alert Failed <BR> input ~ " + input, STATUS.FAIL);
+            GemTestReporter.addTestStep("SendKeys To Alert", "SendKeys To Alert Failed <BR> input ~ " + input, STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -502,11 +502,11 @@ public class DriverAction {
         try {
             WebElement element = getElement(locator);
             element.click();
-            GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
+            GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS,DriverAction.takeSnapShotBase64());
 
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL);
+            GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -515,6 +515,7 @@ public class DriverAction {
             WebElement element = getElement(locator);
             element.click();
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur while Click", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
         }
     }
@@ -523,11 +524,11 @@ public class DriverAction {
         try {
             WebElement element = getElement(locator);
             element.click();
-            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS,DriverAction.takeSnapShotBase64());
 
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -535,11 +536,11 @@ public class DriverAction {
     public static void click(WebElement webElement, String steps, String description) {
         try {
             webElement.click();
-            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS,DriverAction.takeSnapShotBase64());
 
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -548,17 +549,17 @@ public class DriverAction {
             webElement.click();
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Some error occur while Click", "Error Occur", STATUS.FAIL);
+            GemTestReporter.addTestStep("Some error occur while Click", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
     public static void click(WebElement webElement, String elementLabel) {
         try {
             webElement.click();
-            GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS);
+            GemTestReporter.addTestStep("Click on ", "Click Successful on " + elementLabel, STATUS.PASS,DriverAction.takeSnapShotBase64());
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL);
+            GemTestReporter.addTestStep("Click on ", "Click Failed on " + elementLabel, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -570,10 +571,10 @@ public class DriverAction {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS,DriverAction.takeSnapShotBase64());
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -584,6 +585,8 @@ public class DriverAction {
             element.sendKeys(textToEnter);
         } catch (Exception e) {
             e.printStackTrace();
+            GemTestReporter.addTestStep("Some error occur while Type text", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
+
         }
     }
 
@@ -592,12 +595,10 @@ public class DriverAction {
             WebElement element = getElement(locator);
             element.clear();
             element.sendKeys(textToEnter);
-
-            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
-
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS,DriverAction.takeSnapShotBase64());
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -606,11 +607,11 @@ public class DriverAction {
             element.clear();
             element.sendKeys(textToEnter);
 
-            GemTestReporter.addTestStep(steps, description, STATUS.PASS);
+            GemTestReporter.addTestStep(steps, description, STATUS.PASS,DriverAction.takeSnapShotBase64());
 
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep(steps, description, STATUS.FAIL);
+            GemTestReporter.addTestStep(steps, description, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
 
@@ -623,14 +624,13 @@ public class DriverAction {
         try {
             element.clear();
             element.sendKeys(textToEnter);
-            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS);
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Successful<BR>Type Text ~" + textToEnter, STATUS.PASS,DriverAction.takeSnapShotBase64());
 
         } catch (Exception e) {
             e.printStackTrace();
-            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL);
+            GemTestReporter.addTestStep("Type on " + elementLabel, "Type Text Failed<BR>Type Text ~" + textToEnter, STATUS.FAIL,DriverAction.takeSnapShotBase64());
         }
     }
-
 
 
     //////////////Accessible name////////////////////
@@ -640,6 +640,7 @@ public class DriverAction {
             return webElement.getAccessibleName();
         } catch (Exception e) {
             e.printStackTrace();
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             return null;
         }
     }
@@ -649,6 +650,7 @@ public class DriverAction {
             WebElement element = getElement(locator);
             return element.getAccessibleName();
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
             e.printStackTrace();
             return null;
         }
@@ -659,6 +661,8 @@ public class DriverAction {
             WebElement element = getElement(locator);
             return element.getAriaRole();
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
+
             e.printStackTrace();
             return null;
         }
@@ -668,6 +672,8 @@ public class DriverAction {
         try {
             return element.getAriaRole();
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
+
             e.printStackTrace();
             return null;
         }
@@ -677,6 +683,8 @@ public class DriverAction {
         try {
             return webElement.getAttribute(name);
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
+
             e.printStackTrace();
             return null;
         }
@@ -687,6 +695,8 @@ public class DriverAction {
             WebElement element = getElement(locator);
             return element.getCssValue(propertyName);
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
+
             e.printStackTrace();
             return null;
         }
@@ -696,6 +706,8 @@ public class DriverAction {
         try {
             return element.getCssValue(propertyName);
         } catch (Exception e) {
+            GemTestReporter.addTestStep("Some error occur", "Error Occur", STATUS.FAIL,DriverAction.takeSnapShotBase64());
+
             e.printStackTrace();
             return null;
         }
@@ -719,4 +731,18 @@ public class DriverAction {
         return fileWithPath;
     }
 
+    public static String takeSnapShotBase64() {
+//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//        String fileWithPath = "SS/SS" + timestamp.getTime() + ".png";
+//        WebDriver webdriver = DriverManager.getWebDriver();
+        try {
+            TakesScreenshot scrShot = ((TakesScreenshot) DriverManager.getWebDriver());
+            String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
+            return SrcFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }
