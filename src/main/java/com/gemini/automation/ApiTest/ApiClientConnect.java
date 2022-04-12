@@ -264,22 +264,22 @@ public class ApiClientConnect {
     }
 
     // Method to execute PUT requests
-    public static JsonObject PutRequest(String url, String requestPayload, String contentType) {
+    public static JsonObject putRequest(String url, String requestPayload, String contentType) {
         JsonObject response = executeCreateRequest(null,"PUT",url,requestPayload,contentType,null,false);
         return response;
     }
 
-    public static JsonObject PutRequestWithReporting(String step,String url, String requestPayload, String contentType) {
+    public static JsonObject putRequestWithReporting(String step,String url, String requestPayload, String contentType) {
         JsonObject response = executeCreateRequest(step,"PUT",url,requestPayload,contentType,null,true);
         return response;
     }
 
-    public static JsonObject PutRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
+    public static JsonObject putRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
         JsonObject response = executeCreateRequest(null,"PUT",url,requestPayload,contentType,headers,false);
         return response;
     }
 
-    public static JsonObject PutRequestWithReporting(String step,String url, String requestPayload, String contentType,Map<String,String> headers) {
+    public static JsonObject putRequestWithReporting(String step,String url, String requestPayload, String contentType,Map<String,String> headers) {
         JsonObject response = executeCreateRequest(step,"PUT",url,requestPayload,contentType,headers,true);
         return response;
     }
@@ -287,66 +287,66 @@ public class ApiClientConnect {
 
 
     // Method to execute POST Requests
-    public static JsonObject PostRequest(String url, String requestPayload, String contentType) {
+    public static JsonObject postRequest(String url, String requestPayload, String contentType) {
         JsonObject response = executeCreateRequest(null,"POST",url,requestPayload,contentType,null,false);
         return response;
     }
 
-    public static JsonObject PostRequestWithReporting(String step,String url, String requestPayload, String contentType) {
+    public static JsonObject postRequestWithReporting(String step,String url, String requestPayload, String contentType) {
         JsonObject response = executeCreateRequest(step,"POST",url,requestPayload,contentType,null,true);
         return response;
     }
 
-    public static JsonObject PostRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
+    public static JsonObject postRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
         JsonObject response = executeCreateRequest(null,"POST",url,requestPayload,contentType,headers,false);
         return response;
     }
 
-    public static JsonObject PostRequestWithReporting(String step,String url, String requestPayload, String contentType,Map<String,String> headers) {
+    public static JsonObject postRequestWithReporting(String step,String url, String requestPayload, String contentType,Map<String,String> headers) {
         JsonObject response = executeCreateRequest(step,"POST",url,requestPayload,contentType,headers,true);
         return response;
     }
 
 
     // Method to execute Patch requests
-    public static JsonObject PatchRequest(String url, String requestPayload, String contentType) {
+    public static JsonObject patchRequest(String url, String requestPayload, String contentType) {
         JsonObject response = executeCreateRequest(null,"PATCH",url,requestPayload,contentType,null,false);
         return response;
     }
 
-    public static JsonObject PatchRequestWithReporting(String step,String url, String requestPayload, String contentType) {
+    public static JsonObject patchRequestWithReporting(String step,String url, String requestPayload, String contentType) {
         JsonObject response = executeCreateRequest(step,"PATCH",url,requestPayload,contentType,null,true);
         return response;
     }
 
-    public static JsonObject PatchRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
+    public static JsonObject patchRequest(String url, String requestPayload, String contentType,Map<String,String> headers) {
         JsonObject response = executeCreateRequest(null,"PATCH",url,requestPayload,contentType,null,false);
         return response;
     }
 
-    public static JsonObject PatchRequestWithReporting(String step,String url, String requestPayload, String contentType,Map<String,String> headers) {
+    public static JsonObject patchRequestWithReporting(String step,String url, String requestPayload, String contentType,Map<String,String> headers) {
         JsonObject response = executeCreateRequest(step,"PATCH",url,requestPayload,contentType,null,true);
         return response;
     }
 
     // Method to execute GET Request
-    public static JsonObject GetRequest(String url){
+    public static JsonObject getRequest(String url){
         JsonObject response = executeCreateRequest(null,"GET",url,null,null,null,false);
         return response;
     }
 
-    public static JsonObject GetRequestWithReporting(String step,String url){
+    public static JsonObject getRequestWithReporting(String step,String url){
         JsonObject response = executeCreateRequest(step,"GET",url,null,null,null,true);
         return response;
     }
 
     // Method to execute Delete Request
-    public static JsonObject DeleteRequest(String url){
+    public static JsonObject deleteRequest(String url){
         JsonObject response = executeCreateRequest(null,"Delete",url,null,null,null,false);
         return response;
     }
 
-    public static JsonObject DeleteRequestWithReporting(String step,String url){
+    public static JsonObject deleteRequestWithReporting(String step,String url){
         JsonObject response = executeCreateRequest(step,"Delete",url,null,null,null,true);
         return response;
     }
@@ -354,7 +354,7 @@ public class ApiClientConnect {
 
 
     // Method to execute request for File requestPayload with contentType and headers
-    public static JsonObject CreateRequest(String step,String method, String url, File requestPayload,String contentType, Map<String, String> headers) {
+    public static JsonObject createRequest(String step,String method, String url, File requestPayload,String contentType, Map<String, String> headers) {
         StringBuilder payload = new StringBuilder();
         try {
             FileReader fr = new FileReader(requestPayload);
@@ -374,24 +374,24 @@ public class ApiClientConnect {
 
 
     // Method to execute request for File requestPayload without contentType
-    public static JsonObject CreateRequest(String method, String url, String requestPayload, Map<String, String> headers) {
+    public static JsonObject createRequest(String method, String url, String requestPayload, Map<String, String> headers) {
         JsonObject responseJson = executeCreateRequest(null,method, url, requestPayload.toString(),null, headers,false);
         return responseJson;
     }
 
-    public static JsonObject CreateRequestWithReporting(String step,String method, String url, String requestPayload, Map<String, String> headers) {
+    public static JsonObject createRequestWithReporting(String step,String method, String url, String requestPayload, Map<String, String> headers) {
         JsonObject responseJson = executeCreateRequest(step,method, url, requestPayload.toString(),null, headers,true);
         return responseJson;
     }
 
     // Method to execute CreateRequest()
     public static JsonObject CreateRequest(String method, String url, File requestPayload, Map<String, String> headers) {
-        JsonObject responseJson = CreateRequest(null,method, url, requestPayload,null, headers);
+        JsonObject responseJson = createRequest(null,method, url, requestPayload,null, headers);
         return responseJson;
     }
 
 
-    public static JsonObject CreateRequestWithReporting(String step,String method, String url, File requestPayload, Map<String, String> headers) {
+    public static JsonObject createRequestWithReporting(String step,String method, String url, File requestPayload, Map<String, String> headers) {
         JsonObject responseJson = executeCreateRequest(step,method, url, requestPayload.toString(),null, headers,true);
         return responseJson;
     }
