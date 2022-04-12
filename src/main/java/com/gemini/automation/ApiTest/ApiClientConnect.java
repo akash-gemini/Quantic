@@ -13,10 +13,8 @@ import java.util.*;
 
 import javax.net.ssl.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.gemini.automation.generic.ParameterizedUrl;
+import com.google.gson.*;
 import com.qa.gemini.quartzReporting.GemTestReporter;
 import com.qa.gemini.quartzReporting.STATUS;
 
@@ -239,10 +237,15 @@ public class ApiClientConnect {
             JsonObject responseJSON = new JsonObject();
 
             responseJSON.addProperty("status", statusCode);
+            responseJSON.addProperty("requestHeaders", requestHeaders);
             responseJSON.addProperty("responseMessage", responseMessage);
             responseJSON.add("responseError", errorMessage != null ? JsonParser.parseString(errorMessage) : null);
             responseJSON.add("responseBody", responseBody != null ? JsonParser.parseString(responseBody) : null);
             responseJSON.addProperty("execTime", executionTime + " ms");
+
+            if(!(statusCode>=200 && statusCode<300)){
+                responseMessage = errorMessage;
+            }
 
             if(isReporting) {
                 GemTestReporter.addTestStep("<b>Request: " + step +"</b>",
@@ -393,6 +396,111 @@ public class ApiClientConnect {
 
     public static JsonObject createRequestWithReporting(String step,String method, String url, File requestPayload, Map<String, String> headers) {
         JsonObject responseJson = executeCreateRequest(step,method, url, requestPayload.toString(),null, headers,true);
+        return responseJson;
+    }
+
+    // healthCheck function for JSON file
+    private static JsonArray healthCheckJson(JsonArray req){
+        JsonArray responseJson = new JsonArray();
+        for(int i=0;i< req.size();i++) {
+            JsonObject test = (JsonObject) req.get(i);
+            String step = test.get("Test_Name").getAsString();
+            String method = test.get("Method").getAsString();
+            String url = test.get("Url").getAsString();
+            int expectedStatus = test.get("expected_status").getAsInt();
+            String payload = null;
+            Map<String, String> headers = new HashMap<String, String>();
+            Map<String,String> parameters = new HashMap<String, String>();
+
+            if (test.has("payload")) {
+                payload = test.get("payload").getAsJsonObject().toString();
+            }
+
+            if (test.has("headers")) {
+                headers = (Map<String, String>) gson.fromJson(test.get("headers"), headers.getClass());
+            }
+
+            if (test.has("parameters")) {
+                parameters = (Map<String, String>) gson.fromJson(test.get("parameters"), parameters.getClass());
+                url = ParameterizedUrl.getParameterizedUrl(url,parameters);
+            }
+
+
+
+
+            try {
+                JsonObject response = executeCreateRequest(step, method, url, payload, null, headers, false);
+                responseJson.add(response);
+
+                String executionTime = response.get("execTime").getAsString();
+                String requestHeaders = response.get("requestHeaders").getAsString();
+                String responseMessage = response.get("responseMessage").getAsString();
+
+                JsonElement responseBody = null;
+                if(response.has("responseError")){
+                    responseBody = response.get("responseError");
+                }else {
+                    responseBody = response.get("responseBody");
+                }
+
+                GemTestReporter.addTestStep("<b>Request: " + step +"</b>",
+                        "<b>Request Url :</b>" + url + "<br> <b>RequestHeaders :</b>" + requestHeaders, STATUS.INFO);
+
+
+                int actualStatus = response.get("status").getAsInt();
+                if(expectedStatus!=0){
+                    String description = "<b>Actual Status: </b>" + actualStatus + "<br> <b>Expected Status: </b>"+ expectedStatus+ "<br> <b>ResponseMessage : </b>" + responseMessage + "<br> <b>ResponseBody: </b>" + responseBody.toString() + "<br> <b>ExecutionTime: </b>" + executionTime;
+                    if(expectedStatus==actualStatus){
+                        GemTestReporter.addTestStep("<b>Response: " + step + "</b>", description, STATUS.PASS);
+                    }else{
+                        GemTestReporter.addTestStep("<b>Response: " +step + "</b>", description, STATUS.FAIL);
+                    }
+                }else {
+
+                    if (actualStatus >= 200 && actualStatus < 300) {
+                        GemTestReporter.addTestStep("<b>Response: " + step + "</b>","Status Code: "+actualStatus, STATUS.PASS);
+                    }else{
+                        GemTestReporter.addTestStep("<b>Response: " +step + "</b>","Status Code: "+actualStatus, STATUS.FAIL);
+                    }
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return responseJson;
+    }
+
+    public static JsonArray healthCheck(JsonArray req){
+        JsonArray responseJson = healthCheckJson(req);
+        return responseJson;
+    }
+
+    public static JsonArray healthCheck(File requestPayload){
+        StringBuilder payload = new StringBuilder();
+        try {
+            FileReader fr = new FileReader(requestPayload);
+            int i;
+            // Holds true till there is nothing to read
+            while ((i = fr.read()) != -1) {
+                payload.append((char) i);
+            }
+            fr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        JsonArray req = JsonParser.parseString(payload.toString()).getAsJsonArray();
+        JsonArray responseJson = healthCheckJson(req);
+        return responseJson;
+
+    }
+
+    public static JsonArray healthCheck(String filePath){
+        File fr = new File(filePath);
+        JsonArray responseJson = healthCheck(fr);
         return responseJson;
     }
 
