@@ -6,6 +6,7 @@ import com.qa.gemini.quartzReporting.GemTestReporter;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 @Listeners(QuanticTestngTestFilter.class)
@@ -43,7 +44,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
     }
 
     @BeforeMethod
-    public void beforeMethod(Method method) {
+    public void beforeMethod(Method method) throws IOException {
 
         String testcaseName = method.getName();
         String productType = ProjectProperties.getProperty("productType") == null ? "GemJavaProject" : ProjectProperties.getProperty("productType");
