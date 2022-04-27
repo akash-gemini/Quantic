@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 @Listeners(QuanticTestngTestFilter.class)
 public class QuanticUIBase extends QuanticGenericUtils {
 
+
     @BeforeSuite
     public void beforeSuite(ITestContext iTestContext) {
         initializeQuanticGlobalVariables(iTestContext);
@@ -20,7 +21,7 @@ public class QuanticUIBase extends QuanticGenericUtils {
 
         String loc = null;
         try {
-            if (System.getProperty("reportLocation")!=null && System.getProperty("reportLocation").isEmpty()) {
+            if (System.getProperty("reportLocation") != null && System.getProperty("reportLocation").isEmpty()) {
                 loc = System.getProperty("reportLocation");
             } else if (ProjectProperties.getStringPropertyNames().contains("reportLocation")) {
                 loc = ProjectProperties.getProperty("reportLocation");
@@ -34,13 +35,17 @@ public class QuanticUIBase extends QuanticGenericUtils {
         GemTestReporter.startSuite(QuanticGlobalVar.projectName, QuanticGlobalVar.environment, loc);
 
     }
-
+    @Parameters("browserName")
     @BeforeTest
-    public void beforeTest() {
+    public void beforeTest(@Optional String browserName) {
+        if (browserName != null) {
+            QuanticGlobalVar.browserInTest=browserName;
+        }
     }
 
     @BeforeClass
     public void beforeClass() {
+
     }
 
     @BeforeMethod

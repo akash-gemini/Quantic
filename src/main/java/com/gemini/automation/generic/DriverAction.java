@@ -491,11 +491,11 @@ public class DriverAction {
             for (WebElement element : elements) {
                 elementsText.add(getElementText(element));
             }
+            return elementsText;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return null;
     }
 
     //////////////////Click Operation/////////////////

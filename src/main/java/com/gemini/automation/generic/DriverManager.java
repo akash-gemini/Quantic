@@ -7,6 +7,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.GeckoDriverService;
 
 import java.util.Locale;
 
@@ -50,6 +51,7 @@ public class DriverManager {
                     case "firefox":
                         WebDriverManager.firefoxdriver().setup();
                         setWebDriver(new FirefoxDriver());
+
                         break;
                     default:
                         WebDriverManager.chromedriver().setup();
@@ -58,7 +60,7 @@ public class DriverManager {
                 }
             }
         } catch (Exception e) {
-            GemTestReporter.addTestStep("initialize Browser", "Browser initialization Failed ", STATUS.FAIL);
+//            GemTestReporter.addTestStep("initialize Browser", "Browser initialization Failed ", STATUS.FAIL);
             e.printStackTrace();
         }
     }
